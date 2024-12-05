@@ -11,7 +11,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        new HomePage().start(stage);
+//        new HomePage().start(stage);
+    	new RegisterPage().start(stage);
+    	
 //        stage.setTitle("Hello, JavaFX!");
 //        stage.show();
     }
