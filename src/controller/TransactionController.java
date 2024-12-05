@@ -21,12 +21,12 @@ public class TransactionController {
 		return tc;
 	}
 	
-	public boolean createTransaction(String userId, String itemId) {
+	public boolean createTransaction(int userId, int itemId) {
 		
 		return transactionModel.createTransaction(userId, itemId);
 	}
 	
-	public ArrayList<Transaction> getTransaction(String userId) {
+	public ArrayList<Transaction> getTransaction(int userId) {
 		// Validation
 		return transactionModel.getTransaction(userId);
 	}

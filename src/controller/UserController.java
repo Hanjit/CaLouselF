@@ -31,7 +31,7 @@ public class UserController {
 		return user;
 	}
 	
-	public boolean register(String userId, String username, String password, String phoneNumber, String address, String role) {
-		return userModel.register(userId, username, password, phoneNumber, address, role);
+	public boolean register(String username, String password, String phoneNumber, String address, String role) {
+		return userModel.register(username, password, phoneNumber, address, role);
 	}
 }
