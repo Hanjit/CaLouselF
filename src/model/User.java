@@ -3,6 +3,7 @@ package model;
 import connection.Database;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -56,27 +57,24 @@ public class User {
     	}
     	return null;
     }
-
-    // Blm Jadi ini
-    public void Register(User user) {
-        String userId = user.getUserId();
-        String username = user.getUsername();
-        String password = user.getPassword();
-        String phoneNumber = user.getPhoneNumber();
-        String address = user.getAddress();
-        String role = user.getRole();
-
-        //  SQL Query and register user to db
-        Database db = Database.getInstance();
-        Connection connection = db.getConnection();
-        try {
-            Statement statement = connection.createStatement();
-            String query = String.format("INSERT INTO MsUser VALUES('%s', '%s', '%s', '%s', '%s', '%s')", userId, username, password, phoneNumber, address, role);
-            statement.executeUpdate(query);
-            System.out.println("Inserted Successfully");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    
+    public boolean register(String userId, String username, String password, String phoneNumber, String address, String role) {
+    	String query = "INSERT INTO `msuser` VALUES(?, ?, ?, ?, ?, ?)";
+    	PreparedStatement ps = Database.getInstance().prepareStatement(query);
+    	
+    	try {
+    		ps.setString(1, userId);
+    		ps.setString(2, username);
+    		ps.setString(3, password);
+    		ps.setString(4, phoneNumber);
+    		ps.setString(5, address);
+    		ps.setString(6, role);
+    		return ps.executeUpdate() == 1;
+    	} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	
+    	return false;
     }
 
     public String getUserId() {
