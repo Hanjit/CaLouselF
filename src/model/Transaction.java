@@ -7,15 +7,15 @@ import java.util.ArrayList;
 import connection.Database;
 
 public class Transaction {
-	private String userId;
-	private String itemId;
-	private String transactionId;
+	private int userId;
+	private int itemId;
+	private int transactionId;
 	private String itemName;
 	private String itemPrice;
 	
 	public Transaction() {}
 	
-	public Transaction(String userId, String itemId, String transactionId, String itemName, String itemPrice) {
+	public Transaction(int userId, int itemId, int transactionId, String itemName, String itemPrice) {
 		this.userId = userId;
 		this.itemId = itemId;
 		this.transactionId = transactionId;
@@ -23,13 +23,13 @@ public class Transaction {
 		this.itemPrice = itemPrice;
 	}
 
-	public boolean createTransaction(String userId, String itemId) {
+	public boolean createTransaction(int userId, int itemId) {
 		String query = "INSERT INTO `MsTransaction` VALUES('?', '?')";
 		PreparedStatement ps = Database.getInstance().prepareStatement(query);
 		
 		try {
-			ps.setString(1, userId);
-			ps.setString(2, itemId);
+			ps.setInt(1, userId);
+			ps.setInt(2, itemId);
 			return ps.executeUpdate() == 1;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -38,19 +38,19 @@ public class Transaction {
 		return false;
 	}
 	
-	public ArrayList<Transaction> getTransaction(String userId) {
+	public ArrayList<Transaction> getTransaction(int userId) {
 		ArrayList<Transaction> transactions = new ArrayList<>();
 //		String query = "SELECT * FROM `MsTransaction` WHERE User_id LIKE ?";
 		String query = String.format("SELECT Transaction_id, User_id, Item_id,  Item_name, Item_price "
 				+ "FROM mstransaction mt"
 				+ "JOIN msitem mi ON mt.Item_id = mi.Item_id"
-				+ "WHERE mt.User_id = %s", userId);
+				+ "WHERE mt.User_id = %d", userId);
 		ResultSet rs = Database.getInstance().execQuery(query);
 		
 		try {
 			while (rs.next()) {
-				String transactionId = rs.getString("Transaction_id");
-				String itemId = rs.getString("Item_id");
+				int transactionId = rs.getInt("Transaction_id");
+				int itemId = rs.getInt("Item_id");
 				String itemName = rs.getString("Item_name");
 				String itemPrice = rs.getString("Item_price");
 				transactions.add(new Transaction(userId, itemId, transactionId, itemName, itemPrice));
@@ -62,27 +62,27 @@ public class Transaction {
 		return transactions;
 	}
 
-	public String getUserId() {
+	public int getUserId() {
 		return userId;
 	}
 
-	public void setUserId(String userId) {
+	public void setUserId(int userId) {
 		this.userId = userId;
 	}
 
-	public String getItemId() {
+	public int getItemId() {
 		return itemId;
 	}
 
-	public void setItemId(String itemId) {
+	public void setItemId(int itemId) {
 		this.itemId = itemId;
 	}
 
-	public String getTransactionId() {
+	public int getTransactionId() {
 		return transactionId;
 	}
 
-	public void setTransactionId(String transactionId) {
+	public void setTransactionId(int transactionId) {
 		this.transactionId = transactionId;
 	}
 

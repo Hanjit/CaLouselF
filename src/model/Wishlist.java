@@ -1,21 +1,27 @@
 package model;
 
 public class Wishlist {
-	private String wishlistId;
+	private int wishlistId;
 	private String itemId;
 	private String userId;
-	
-	public Wishlist(String wishlistId, String itemId, String userId) {
+		
+	public Wishlist(String itemId, String userId) {
+		super();
+		this.itemId = itemId;
+		this.userId = userId;
+	}
+
+	public Wishlist(int wishlistId, String itemId, String userId) {
 		super();
 		this.wishlistId = wishlistId;
 		this.itemId = itemId;
 		this.userId = userId;
 	}
 	
-	public String getWishlistId() {
+	public int getWishlistId() {
 		return wishlistId;
 	}
-	public void setWishlistId(String wishlistId) {
+	public void setWishlistId(int wishlistId) {
 		this.wishlistId = wishlistId;
 	}
 	public String getItemId() {

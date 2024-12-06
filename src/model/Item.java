@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import connection.Database;
 
 public class Item {
-	private String itemId;
+	private int itemId;
 	private String itemName;
 	private String itemSize;
 	private String itemPrice;
@@ -17,7 +17,7 @@ public class Item {
 	
 	public Item() {}
 	
-	public Item(String itemId, String itemName, String itemSize, String itemPrice, String itemCategory) {
+	public Item(int itemId, String itemName, String itemSize, String itemPrice, String itemCategory) {
 		super();
 		this.itemId = itemId;
 		this.itemName = itemName;
@@ -26,9 +26,7 @@ public class Item {
 		this.itemCategory = itemCategory;
 	}
 
-
-
-	public Item(String itemId, String itemName, String itemSize, String itemPrice, String itemCategory,
+	public Item(int itemId, String itemName, String itemSize, String itemPrice, String itemCategory,
 			String itemStatus, String itemWishlist, String itemOfferStatus) {
 		super();
 		this.itemId = itemId;
@@ -47,7 +45,7 @@ public class Item {
 		ResultSet rs = Database.getInstance().execQuery(query);
 		try {
 			while (rs.next()) {
-				String id = rs.getString("item_id");
+				int id = rs.getInt("item_id");
 				String name = rs.getString("item_name");
 				String size = rs.getString("item_size");
 				String price = rs.getString("item_price");
@@ -61,10 +59,10 @@ public class Item {
 		return items;
 	}
 	
-	public String getItemId() {
+	public int getItemId() {
 		return itemId;
 	}
-	public void setItemId(String itemId) {
+	public void setItemId(int itemId) {
 		this.itemId = itemId;
 	}
 	public String getItemName() {

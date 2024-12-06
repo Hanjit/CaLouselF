@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class User {
-    private String userId;
+    private int userId;
     private String username;
     private String password;
     private String phoneNumber;
@@ -18,7 +18,7 @@ public class User {
     
     public User() {}
 
-    public User(String userId, String username, String password, String phoneNumber, String address, String role) {
+    public User(int userId, String username, String password, String phoneNumber, String address, String role) {
         this.userId = userId;
         this.username = username;
         this.password = password;
@@ -40,7 +40,7 @@ public class User {
     		return null;
     	} else {
     		try {
-				String userId = rs.getString("User_id");
+				int userId = rs.getInt("User_id");
 				String phoneNumber = rs.getString("Phone_number");
 				String address = rs.getString("Address");
 				String role = rs.getString("Role");
@@ -58,17 +58,16 @@ public class User {
     	return null;
     }
     
-    public boolean register(String userId, String username, String password, String phoneNumber, String address, String role) {
-    	String query = "INSERT INTO `msuser` VALUES(?, ?, ?, ?, ?, ?)";
+    public boolean register(String username, String password, String phoneNumber, String address, String role) {
+    	String query = "INSERT INTO `msuser` VALUES(?, ?, ?, ?, ?)";
     	PreparedStatement ps = Database.getInstance().prepareStatement(query);
     	
     	try {
-    		ps.setString(1, userId);
-    		ps.setString(2, username);
-    		ps.setString(3, password);
-    		ps.setString(4, phoneNumber);
-    		ps.setString(5, address);
-    		ps.setString(6, role);
+    		ps.setString(1, username);
+    		ps.setString(2, password);
+    		ps.setString(3, phoneNumber);
+    		ps.setString(4, address);
+    		ps.setString(5, role);
     		return ps.executeUpdate() == 1;
     	} catch (Exception e) {
 			e.printStackTrace();
@@ -77,12 +76,12 @@ public class User {
     	return false;
     }
 
-    public String getUserId() {
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUserId(int userId2) {
+        this.userId = userId2;
     }
 
     public String getUsername() {
