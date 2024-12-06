@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.ArrayList;
+
 import model.Offer;
 
 public class OfferController {
@@ -19,4 +21,23 @@ public class OfferController {
 		return oc;
 	}
 	
+	public boolean createOffer(int userId, int itemId, int sellerId, int offerPrice) {
+		
+		return offerModel.createOffer(userId, itemId, sellerId, offerPrice);
+	}
+	
+	public ArrayList<Offer> getOffer(int sellerId) {
+		
+		return offerModel.getOffer(sellerId);
+	}
+	
+	public boolean acceptOffer(int offerId) {
+		
+		return offerModel.acceptOffer(offerId);
+	}
+	
+	public boolean declineOffer(int offerId, String offerReason) {
+		
+		return offerModel.declineOffer(offerId, offerReason);
+	}
 }

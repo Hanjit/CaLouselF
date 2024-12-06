@@ -26,4 +26,10 @@ public class ItemController {
 		return itemModel.getItems();
 	}
 	
+	public boolean createItem(String itemName, String itemSize, String itemPrice, String itemCategory,
+			String itemStatus, String itemWishlist, String itemOfferStatus) {
+		
+		return itemModel.createItem(itemName, itemSize, itemPrice, itemCategory, itemStatus, itemWishlist, itemOfferStatus);
+	}
+	
 }

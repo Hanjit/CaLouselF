@@ -92,7 +92,7 @@ public class HomePage extends Application{
 		tvItems.getItems().addAll(items);
 	}
 	
-	String tempId;
+	int tempId;
 	
 	private void addEvent() {
 		tvItems.setOnMouseClicked(e -> {
@@ -112,12 +112,12 @@ public class HomePage extends Application{
 			// Create new transaction
 //			TransactionController.createTransaction(user.getUserId, tempId);
 			fillTable();
-			tempId = null;
+			tempId = -1;
 		});
 		
 		cancelBtn.setOnMouseClicked(e -> {
 			resetButtonVisibility();
-			tempId = null;
+			tempId = -1;
 		});
 		
 		wishlistBtn.setOnMouseClicked(e -> {
@@ -125,13 +125,13 @@ public class HomePage extends Application{
 			// Insert wishlist
 //			WishlistController.createWishlist(user.getUserId, tempId);
 			fillTable();
-			tempId = null;
+			tempId = -1;
 		});
 		
 		offerBtn.setOnMouseClicked(e -> {
 			resetButtonVisibility();
 			// pindah ke page offer
-			tempId = null;
+			tempId = -1;
 		});
 	}
 
