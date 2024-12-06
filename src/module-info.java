@@ -4,7 +4,7 @@
 /**
  * 
  */
-module CaLouselF_eclipse {
+module CaLouselF {
 	requires javafx.graphics;
 	requires java.sql;
 	requires javafx.controls;
