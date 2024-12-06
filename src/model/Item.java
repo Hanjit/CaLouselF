@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import connection.Database;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 public class Item {
 	private int itemId;
@@ -16,8 +18,14 @@ public class Item {
 	private String itemStatus;
 	private String itemWishlist;
 	private String itemOfferStatus;
+	private String itemReason = "";
 	
 	public Item() {}
+	
+	public Item(int itemId, String itemReason) {
+		this.itemId = itemId;
+		this.itemReason = itemReason;
+	}
 	
 	public Item(int itemId, String itemName, String itemSize, String itemPrice, String itemCategory) {
 		super();
@@ -26,6 +34,17 @@ public class Item {
 		this.itemSize = itemSize;
 		this.itemPrice = itemPrice;
 		this.itemCategory = itemCategory;
+	}
+	
+	public Item(int itemId, String itemName, String itemSize, String itemPrice, String itemCategory, String itemStatus, String itemReason) {
+		super();
+		this.itemId = itemId;
+		this.itemName = itemName;
+		this.itemSize = itemSize;
+		this.itemPrice = itemPrice;
+		this.itemCategory = itemCategory;
+		this.itemStatus = itemStatus;
+		this.itemReason = itemReason;
 	}
 
 	public Item(int itemId, String itemName, String itemSize, String itemPrice, String itemCategory,
@@ -63,9 +82,10 @@ public class Item {
 		return false;
 	}
 	
+	// for seller
 	public ArrayList<Item> getAllItems(int sellerId) {
 		ArrayList<Item> items = new ArrayList<>();
-		String query = "SELECT * FROM `MsItem`";
+		String query = String.format("SELECT * FROM `MsItem` WHERE `Seller_id` = %d", sellerId);
 		ResultSet rs = Database.getInstance().execQuery(query);
 		try {
 			while (rs.next()) {
@@ -74,7 +94,9 @@ public class Item {
 				String size = rs.getString("item_size");
 				String price = rs.getString("item_price");
 				String category = rs.getString("item_category");
-				items.add(new Item(id, name, size, price, category));
+				String status = rs.getString("Item_status");
+				String reason = rs.getString("Item_reason");
+				items.add(new Item(id, name, size, price, category, status, reason));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -83,6 +105,7 @@ public class Item {
 		return items;
 	}
 	
+	// for buyer
 	public ArrayList<Item> getItems() {
 		ArrayList<Item> items = new ArrayList<>();
 		String query = "SELECT * FROM `MsItem` WHERE item_status LIKE 'Approved'";
@@ -103,6 +126,7 @@ public class Item {
 		return items;
 	}
 	
+	// For admin
 	public ArrayList<Item> getRequestedItems() {
 		ArrayList<Item> items = new ArrayList<>();
 		String query = "SELECT * FROM `MsItem` WHERE `item_status` LIKE 'Pending'";
@@ -119,6 +143,25 @@ public class Item {
 				String itemWishlist = rs.getString("Item_wishlist");
 				String itemOfferStatus = rs.getString("Item_offer_status");
 				items.add(new Item(itemId, itemName, itemSize, itemPrice, itemCategory, itemStatus, itemWishlist, itemOfferStatus));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return items;
+	}
+	
+	// for seller declined items alert
+	public ArrayList<Item> getDeclinedItems(int sellerId) {
+		ArrayList<Item> items = new ArrayList<>();
+		String query = String.format("SELECT * FROM `MsItem` WHERE `Seller_id` = %d AND `Item_status` LIKE 'Declined'", sellerId);
+		ResultSet rs = Database.getInstance().execQuery(query);
+		
+		try {
+			while (rs.next()) {
+				int itemId = rs.getInt("Item_id");
+				String itemReason = rs.getString("Item_reason");
+				items.add(new Item(itemId, itemReason));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -183,14 +226,15 @@ public class Item {
 		return false;
 	}
 	
-	public boolean declineItem(int itemId) {
+	public boolean declineItem(int itemId, String itemReason) {
 		String query = "UPDATE `MsItem`"
-				+ "SET `Item_status` = 'Declined'"
+				+ "SET `Item_status` = 'Declined', `Item_reason` = '?'"
 				+ "WHERE `Item_id` = ?";
 		PreparedStatement ps = Database.getInstance().prepareStatement(query);
 		
 		try {
-			ps.setInt(1, itemId);
+			ps.setString(1, itemReason);
+			ps.setInt(2, itemId);
 			return ps.executeUpdate() == 1;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -246,6 +290,14 @@ public class Item {
 	}
 	public void setItemOfferStatus(String itemOfferStatus) {
 		this.itemOfferStatus = itemOfferStatus;
+	}
+
+	public String getItemReason() {
+		return itemReason;
+	}
+
+	public void setItemReason(String itemReason) {
+		this.itemReason = itemReason;
 	}
 	
 }
