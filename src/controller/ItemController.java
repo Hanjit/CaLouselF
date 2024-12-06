@@ -27,9 +27,34 @@ public class ItemController {
 	}
 	
 	public boolean createItem(String itemName, String itemSize, String itemPrice, String itemCategory,
-			String itemStatus, String itemWishlist, String itemOfferStatus) {
+			String itemWishlist, String itemOfferStatus) {
 		
-		return itemModel.createItem(itemName, itemSize, itemPrice, itemCategory, itemStatus, itemWishlist, itemOfferStatus);
+		return itemModel.createItem(itemName, itemSize, itemPrice, itemCategory, itemWishlist, itemOfferStatus);
 	}
 	
+	public boolean updateItem(int itemId, String itemName, String itemSize, String itemPrice, 
+			String itemCategory, String itemWishlist, String itemOfferStatus) {
+		
+		return itemModel.updateItem(itemId, itemName, itemSize, itemPrice, itemCategory, itemWishlist, itemOfferStatus);
+	}
+	
+	public boolean deleteItem(int itemId) {
+		
+		return itemModel.deleteItem(itemId);
+	}
+	
+	public ArrayList<Item> getRequestedItem() {
+		
+		return itemModel.getRequestedItems();
+	}
+	
+	public boolean approveItem(int itemId) {
+		
+		return itemModel.approveItem(itemId);
+	}
+	
+	public boolean declineItem(int itemId) {
+		
+		return itemModel.declineItem(itemId);
+	}
 }

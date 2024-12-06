@@ -41,8 +41,7 @@ public class Item {
 		this.itemOfferStatus = itemOfferStatus;
 	}
 	
-	public boolean createItem(String itemName, String itemSize, String itemPrice, String itemCategory,
-			String itemStatus, String itemWishlist, String itemOfferStatus) {
+	public boolean createItem(String itemName, String itemSize, String itemPrice, String itemCategory, String itemWishlist, String itemOfferStatus) {
 		
 		String query = "INSERT INTO `MsItem` (`Item_name`, `Item_size`, `Item_price`, `Item_category`, `Item_status`, `Item_wishlist`, `Item_offer_status`) "
 				+ "VALUES (?,?,?,?,?,?,?)";
@@ -53,7 +52,7 @@ public class Item {
 			ps.setString(2, itemSize);
 			ps.setString(3, itemPrice);
 			ps.setString(4, itemCategory);
-			ps.setString(5, itemStatus);
+			ps.setString(5, "Pending");
 			ps.setString(6, itemWishlist);
 			ps.setString(7, itemOfferStatus);
 			return ps.executeUpdate() == 1;
@@ -102,6 +101,102 @@ public class Item {
 		}
 		
 		return items;
+	}
+	
+	public ArrayList<Item> getRequestedItems() {
+		ArrayList<Item> items = new ArrayList<>();
+		String query = "SELECT * FROM `MsItem` WHERE `item_status` LIKE 'Pending'";
+		ResultSet rs = Database.getInstance().execQuery(query);
+		
+		try {
+			while (rs.next()) {
+				int itemId = rs.getInt("Item_id");
+				String itemName = rs.getString("Item_name");
+				String itemSize = rs.getString("Item_size");
+				String itemPrice = rs.getString("Item_price");
+				String itemCategory = rs.getString("Item_category");
+				String itemStatus = rs.getString("Item_status");
+				String itemWishlist = rs.getString("Item_wishlist");
+				String itemOfferStatus = rs.getString("Item_offer_status");
+				items.add(new Item(itemId, itemName, itemSize, itemPrice, itemCategory, itemStatus, itemWishlist, itemOfferStatus));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return items;
+	}
+	
+	public boolean updateItem(int itemId, String itemName, String itemSize, String itemPrice, 
+			String itemCategory, String itemWishlist, String itemOfferStatus) {
+		
+		String query = "UPDATE `MsItem`"
+				+ "SET `Item_name` = '?', `Item_size` = '?', `Item_price` = '?', `Item_category` = '?', "
+				+ "`Item_wishlist` = '?', `Item_offer_status` = '?'"
+				+ "WHERE `Item_id` = ?";
+		PreparedStatement ps = Database.getInstance().prepareStatement(query);
+		
+		try {
+			ps.setString(1, itemName);
+			ps.setString(2, itemSize);
+			ps.setString(3, itemPrice);
+			ps.setString(4, itemCategory);
+			ps.setString(5, itemWishlist);
+			ps.setString(6, itemOfferStatus);
+			ps.setInt(7, itemId);
+			return ps.executeUpdate() == 1;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
+	
+	public boolean deleteItem(int itemId) {
+		
+		String query = "DELETE FROM `msitem` WHERE `item_id` = ?";
+		PreparedStatement ps = Database.getInstance().prepareStatement(query);
+		
+		try {
+			ps.setInt(1, itemId);
+			return ps.executeUpdate() == 1;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
+	
+	public boolean approveItem(int itemId) {
+		String query = "UPDATE `MsItem`"
+				+ "SET `Item_status` = 'Approved'"
+				+ "WHERE `Item_id` = ?";
+		PreparedStatement ps = Database.getInstance().prepareStatement(query);
+		
+		try {
+			ps.setInt(1, itemId);
+			return ps.executeUpdate() == 1;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
+	
+	public boolean declineItem(int itemId) {
+		String query = "UPDATE `MsItem`"
+				+ "SET `Item_status` = 'Declined'"
+				+ "WHERE `Item_id` = ?";
+		PreparedStatement ps = Database.getInstance().prepareStatement(query);
+		
+		try {
+			ps.setInt(1, itemId);
+			return ps.executeUpdate() == 1;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return false;
 	}
 	
 	public int getItemId() {
