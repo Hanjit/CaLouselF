@@ -51,14 +51,14 @@ public class RegisterPage extends Application {
 	}
 	
 	private void layouting() {
-		gpForm.add(userIdLabel, 0, 0);
+//		gpForm.add(userIdLabel, 0, 0);
 		gpForm.add(usernameLabel, 0, 1);
 		gpForm.add(passwordLabel, 0, 2);
 		gpForm.add(phoneNumberLabel, 0, 3);
 		gpForm.add(addressLabel, 0, 4);
 		gpForm.add(roleLabel, 0, 5);
 		
-		gpForm.add(userIdField, 1, 0);
+//		gpForm.add(userIdField, 1, 0);
 		gpForm.add(usernameField, 1, 1);
 		gpForm.add(passwordField, 1, 2);
 		gpForm.add(phoneNumberField, 1, 3);
@@ -73,14 +73,14 @@ public class RegisterPage extends Application {
 	}
 	
 	private void register() {
-		String id = userIdField.getText().toString();
+//		String id = userIdField.getText().toString();
 		String username = usernameField.getText().toString();
 		String password = passwordField.getText().toString();
 		String phoneNumber = phoneNumberField.getText().toString();
 		String address = addressField.getText().toString();
 		String role = roleField.getText().toString();
 		
-		boolean result = UserController.getInstance().register(id, username, password, phoneNumber, address, role);
+		boolean result = UserController.getInstance().register(username, password, phoneNumber, address, role);
 		if (result) {
 			System.out.println("Register Successfull");
 		} 
