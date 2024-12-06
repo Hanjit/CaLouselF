@@ -20,8 +20,8 @@ public class RegisterPage extends Application {
 	GridPane gpForm;
 	HBox hbButtons;
 	
-	Label userIdLabel, usernameLabel, passwordLabel, phoneNumberLabel, addressLabel, roleLabel;
-	TextField userIdField, usernameField, passwordField, phoneNumberField, addressField, roleField;
+	Label usernameLabel, passwordLabel, phoneNumberLabel, addressLabel, roleLabel;
+	TextField usernameField, passwordField, phoneNumberField, addressField, roleField;
 	
 	Button registerButton, backButton;
 	
@@ -32,14 +32,14 @@ public class RegisterPage extends Application {
 		gpForm = new GridPane();
 		hbButtons = new HBox();
 		
-		userIdLabel = new Label("ID");
+//		userIdLabel = new Label("ID");
 		usernameLabel = new Label("Username");
 		passwordLabel = new Label("Password");
 		phoneNumberLabel = new Label("Phone Number");
 		addressLabel = new Label("Address");
 		roleLabel = new  Label("Role");
 		
-		userIdField = new TextField();
+//		userIdField = new TextField();
 		usernameField = new TextField(); 
 		passwordField = new TextField(); 
 		phoneNumberField = new TextField(); 

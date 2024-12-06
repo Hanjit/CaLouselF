@@ -59,7 +59,7 @@ public class User {
     }
     
     public boolean register(String username, String password, String phoneNumber, String address, String role) {
-    	String query = "INSERT INTO `msuser` VALUES(?, ?, ?, ?, ?)";
+    	String query = "INSERT INTO `msuser` (`Username`, `Password`, `Phone_number`, `Address`, `Role`) VALUES(?, ?, ?, ?, ?)";
     	PreparedStatement ps = Database.getInstance().prepareStatement(query);
     	
     	try {
