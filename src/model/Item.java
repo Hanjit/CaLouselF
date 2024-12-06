@@ -1,6 +1,8 @@
 package model;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import connection.Database;
@@ -39,6 +41,49 @@ public class Item {
 		this.itemOfferStatus = itemOfferStatus;
 	}
 	
+	public boolean createItem(String itemName, String itemSize, String itemPrice, String itemCategory,
+			String itemStatus, String itemWishlist, String itemOfferStatus) {
+		
+		String query = "INSERT INTO `MsItem` (`Item_name`, `Item_size`, `Item_price`, `Item_category`, `Item_status`, `Item_wishlist`, `Item_offer_status`) "
+				+ "VALUES (?,?,?,?,?,?,?)";
+		PreparedStatement ps = Database.getInstance().prepareStatement(query);
+		
+		try {
+			ps.setString(1, itemName);
+			ps.setString(2, itemSize);
+			ps.setString(3, itemPrice);
+			ps.setString(4, itemCategory);
+			ps.setString(5, itemStatus);
+			ps.setString(6, itemWishlist);
+			ps.setString(7, itemOfferStatus);
+			return ps.executeUpdate() == 1;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
+	
+	public ArrayList<Item> getAllItems(int sellerId) {
+		ArrayList<Item> items = new ArrayList<>();
+		String query = "SELECT * FROM `MsItem`";
+		ResultSet rs = Database.getInstance().execQuery(query);
+		try {
+			while (rs.next()) {
+				int id = rs.getInt("item_id");
+				String name = rs.getString("item_name");
+				String size = rs.getString("item_size");
+				String price = rs.getString("item_price");
+				String category = rs.getString("item_category");
+				items.add(new Item(id, name, size, price, category));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return items;
+	}
+	
 	public ArrayList<Item> getItems() {
 		ArrayList<Item> items = new ArrayList<>();
 		String query = "SELECT * FROM `MsItem` WHERE item_status LIKE 'Approved'";
@@ -48,7 +93,7 @@ public class Item {
 				int id = rs.getInt("item_id");
 				String name = rs.getString("item_name");
 				String size = rs.getString("item_size");
-				String price = rs.getString("item_price");
+				String price = rs.getString("item_price"); 
 				String category = rs.getString("item_category");
 				items.add(new Item(id, name, size, price, category));
 			}
