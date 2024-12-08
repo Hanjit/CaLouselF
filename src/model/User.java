@@ -29,17 +29,35 @@ public class User {
     
     public User login(String username, String password) {
     	User user = new User();
-    	String query = String.format("SELECT *"
-    			+ "FROM msuser"
-    			+ "WHERE Username LIKE '%s'"
+    	String query = String.format("SELECT * "
+    			+ "FROM msuser "
+    			+ "WHERE Username LIKE '%s' "
     			+ "AND Password LIKE '%s'", username, password);
     	ResultSet rs = Database.getInstance().execQuery(query);
     	
-    	if (rs == null) {
-    		// Alert login failed
-    		return null;
-    	} else {
-    		try {
+//    	if (rs == null) {
+//    		// Alert login failed
+//    		return null;
+//    	} else {
+//    		try {
+//				int userId = rs.getInt("User_id");
+//				String phoneNumber = rs.getString("Phone_number");
+//				String address = rs.getString("Address");
+//				String role = rs.getString("Role");
+//				user.setUserId(userId);
+//				user.setUsername(username);
+//				user.setPassword(password);
+//				user.setPhoneNumber(phoneNumber);
+//				user.setAddress(address);
+//				user.setRole(role);
+//				return user;
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//			}
+//    	}
+    	
+    	try {
+			if (rs.next()) {
 				int userId = rs.getInt("User_id");
 				String phoneNumber = rs.getString("Phone_number");
 				String address = rs.getString("Address");
@@ -51,15 +69,15 @@ public class User {
 				user.setAddress(address);
 				user.setRole(role);
 				return user;
-			} catch (SQLException e) {
-				e.printStackTrace();
 			}
-    	}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
     	return null;
     }
     
     public boolean register(String username, String password, String phoneNumber, String address, String role) {
-    	String query = "INSERT INTO `msuser` VALUES(?, ?, ?, ?, ?)";
+    	String query = "INSERT INTO `msuser` (`Username`, `Password`, `Phone_number`, `Address`, `Role`) VALUES(?, ?, ?, ?, ?)";
     	PreparedStatement ps = Database.getInstance().prepareStatement(query);
     	
     	try {

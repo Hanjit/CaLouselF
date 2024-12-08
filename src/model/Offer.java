@@ -20,6 +20,11 @@ public class Offer {
 	
 	public Offer() {}
 	
+	public Offer(int offerId, String offerReason) {
+		this.offerId = offerId;
+		this.offerReason = offerReason;
+	}
+	
 	public Offer(int offerId, int userId, int itemId, String itemName, int itemPrice, int offerPrice, String offerStatus, String offerReason) {
 		super();
 		this.offerId = offerId;
@@ -53,6 +58,7 @@ public class Offer {
 		return false;
 	}
 	
+	// for seller
 	public ArrayList<Offer> getOffer(int sellerId) {
 		ArrayList<Offer> offers = new ArrayList<>();
 		String query = String.format("SELECT `Offer_id`, `User_id`, `Item_id`, `Item_price`, `Offer_price`, `Offer_status`, `Offer_reason`"
@@ -80,6 +86,40 @@ public class Offer {
 		
 		return offers;
 	}
+	
+	// for user declined offer alert
+	public ArrayList<Offer> getDeclinedOffer(int userId) {
+		ArrayList<Offer> offers = new ArrayList<>();
+		String query = String.format("SELECT * FROM `MsOffer` WHERE `User_id` = %d AND `Offer_status` LIKE 'Declined'", userId);
+		ResultSet rs = Database.getInstance().execQuery(query);
+		
+		try {
+			while (rs.next()) {
+				int offerId = rs.getInt("Offer_id");
+				String offerReason = rs.getString("Offer_reason");
+				offers.add(new Offer(offerId, offerReason));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return offers;
+	}
+	
+	public boolean deleteOffer(int offerId) {
+			
+			String query = "DELETE FROM `MsOffer` WHERE `Offer_id` = ?";
+			PreparedStatement ps = Database.getInstance().prepareStatement(query);
+			
+			try {
+				ps.setInt(1, offerId);
+				return ps.executeUpdate() == 1;
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return false;
+		}
 	
 	public boolean acceptOffer(int offerId) {
 		

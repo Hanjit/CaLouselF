@@ -22,7 +22,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import model.Item;
 
-public class HomePage extends Application{
+public class HomePage {
 	
 	Scene sc;
 	BorderPane bp;
@@ -133,17 +133,24 @@ public class HomePage extends Application{
 			// pindah ke page offer
 			tempId = -1;
 		});
+		
+		historyBtn.setOnMouseClicked(e -> {
+			resetButtonVisibility();
+			
+			// pindah ke page transaction
+			TransactionPage transactionPage = new TransactionPage();
+			Scene transactionScene = transactionPage.getScene();
+			Main.switchScene(transactionScene);
+		});
 	}
-
-	@Override
-	public void start(Stage primaryStage) throws Exception {
+	
+	public HomePage() {
 		initialize();
 		layouting();
-		fillTable();
 		addEvent();
-		
-		primaryStage.setScene(sc);
-		primaryStage.show();
 	}
-
+	
+	public Scene getScene() {
+		return sc;
+	}
 }
