@@ -42,8 +42,8 @@ public class Transaction {
 		ArrayList<Transaction> transactions = new ArrayList<>();
 //		String query = "SELECT * FROM `MsTransaction` WHERE User_id LIKE ?";
 		String query = String.format("SELECT Transaction_id, User_id, Item_id,  Item_name, Item_price "
-				+ "FROM mstransaction mt"
-				+ "JOIN msitem mi ON mt.Item_id = mi.Item_id"
+				+ "FROM mstransaction mt "
+				+ "JOIN msitem mi ON mt.Item_id = mi.Item_id "
 				+ "WHERE mt.User_id = %d", userId);
 		ResultSet rs = Database.getInstance().execQuery(query);
 		
