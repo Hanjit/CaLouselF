@@ -3,7 +3,7 @@ package model;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import connection.Database;
 
@@ -39,7 +39,7 @@ public class Wishlist {
 	}
 	
     // Method yang digunakan untuk menambahkan wishlist
-	public boolean addWishlist(Wishlist wishlist) {
+	public boolean addWishlist(int itemId, int userId) {
 		String query = "INSERT INTO `mswishlist`(`Item_id`, `User_id`) VALUES (?, ?)";
 		PreparedStatement ps = Database.getInstance().prepareStatement(query);
 		try {
@@ -70,9 +70,9 @@ public class Wishlist {
 	}
 	
 	// Method yang digunakan untuk menampilkan item apa saja yang di masuk kedalam wishlist
-	public Vector<Wishlist> viewWishlist(int userId) {
+	public ArrayList<Wishlist> viewWishlist(int userId) {
 		String query = String.format("SELECT msitem.Item_id, msitem.Item_name, msitem.Item_size, msitem.Item_price, msitem.Item_category FROM `mswishlist` JOIN msitem ON mswishlist.Item_id = msitem.Item_id WHERE 'User_id' = %d" , userId);
-		Vector<Wishlist> wishlist = new Vector<>();
+		ArrayList<Wishlist> wishlist = new ArrayList<>();
 		ResultSet rs = Database.getInstance().execQuery(query);
 		try {
 			while(rs.next()) {

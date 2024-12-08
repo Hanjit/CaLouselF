@@ -1,6 +1,6 @@
 package view;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 import controller.WishlistController;
 import javafx.application.Application;
@@ -16,7 +16,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-import model.Item;
 import model.Wishlist;
 
 public class WishlistPage extends Application{
@@ -33,7 +32,7 @@ public class WishlistPage extends Application{
 	TableColumn<Wishlist, String> priceColumn;
 	TableColumn<Wishlist, String> categoryColumn;
 	
-	Vector<Wishlist> wishlistItems;
+	ArrayList<Wishlist> wishlistItems;
 	
 	Label itemName, itemSize, itemPrice, itemCategory;
 	
@@ -50,7 +49,7 @@ public class WishlistPage extends Application{
 		gp = new GridPane();
 		hb = new HBox();
 		
-		wishlistItems = new Vector<>();
+		wishlistItems = new ArrayList<>();
 		
 		tvWishlist= new TableView<>();
 		nameColumn = new TableColumn<>("name");
@@ -78,7 +77,7 @@ public class WishlistPage extends Application{
 	}
 
 	private void view() {
-		int userId = 2;
+		int userId = 2; // gak paham buat ngambil userIdnya
         wishlistItems = WishlistController.getInstance().viewWishlist(userId);
 
         tvWishlist.getItems().clear();
@@ -88,7 +87,7 @@ public class WishlistPage extends Application{
 	private void delete() {
 		 Wishlist selectedItem = tvWishlist.getSelectionModel().getSelectedItem();
 	        if (selectedItem != null) {
-	            boolean result = WishlistController.getInstance().deleteWishlist(selectedItem.getItemId());
+	            boolean result = WishlistController.getInstance().deleteWishlist(selectedItem.getWishlistId());
 	            if (result) {
 	                System.out.println("Remove success!");
 	                view();
@@ -115,7 +114,9 @@ public class WishlistPage extends Application{
 			@Override
 			public void handle(Event event) {
 				// TODO Auto-generated method stub
-				
+				HomePage homePage = new HomePage();
+				Scene homeScene = homePage.getScene();
+				Main.switchScene(homeScene);
 			}
 		});
     }
