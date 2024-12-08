@@ -60,10 +60,10 @@ public class Item {
 		this.itemOfferStatus = itemOfferStatus;
 	}
 	
-	public boolean createItem(String itemName, String itemSize, String itemPrice, String itemCategory, String itemWishlist, String itemOfferStatus) {
+	public boolean createItem(String itemName, String itemSize, String itemPrice, String itemCategory, String itemWishlist, String itemOfferStatus, int sellerId) {
 		
-		String query = "INSERT INTO `MsItem` (`Item_name`, `Item_size`, `Item_price`, `Item_category`, `Item_status`, `Item_wishlist`, `Item_offer_status`) "
-				+ "VALUES (?,?,?,?,?,?,?)";
+		String query = "INSERT INTO `MsItem` (`Item_name`, `Item_size`, `Item_price`, `Item_category`, `Item_status`, `Item_wishlist`, `Item_offer_status`, `Seller_id`) "
+				+ "VALUES (?,?,?,?,?,?,?,?)";
 		PreparedStatement ps = Database.getInstance().prepareStatement(query);
 		
 		try {
@@ -74,6 +74,7 @@ public class Item {
 			ps.setString(5, "Pending");
 			ps.setString(6, itemWishlist);
 			ps.setString(7, itemOfferStatus);
+			ps.setInt(8, sellerId);
 			return ps.executeUpdate() == 1;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -129,20 +130,17 @@ public class Item {
 	// For admin
 	public ArrayList<Item> getRequestedItems() {
 		ArrayList<Item> items = new ArrayList<>();
-		String query = "SELECT * FROM `MsItem` WHERE `item_status` LIKE 'Pending'";
+		String query = "SELECT * FROM `MsItem` WHERE `Item_status` LIKE 'Pending'";
 		ResultSet rs = Database.getInstance().execQuery(query);
 		
 		try {
 			while (rs.next()) {
-				int itemId = rs.getInt("Item_id");
-				String itemName = rs.getString("Item_name");
-				String itemSize = rs.getString("Item_size");
-				String itemPrice = rs.getString("Item_price");
-				String itemCategory = rs.getString("Item_category");
-				String itemStatus = rs.getString("Item_status");
-				String itemWishlist = rs.getString("Item_wishlist");
-				String itemOfferStatus = rs.getString("Item_offer_status");
-				items.add(new Item(itemId, itemName, itemSize, itemPrice, itemCategory, itemStatus, itemWishlist, itemOfferStatus));
+				int id = rs.getInt("item_id");
+				String name = rs.getString("item_name");
+				String size = rs.getString("item_size");
+				String price = rs.getString("item_price"); 
+				String category = rs.getString("item_category");
+				items.add(new Item(id, name, size, price, category));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -170,12 +168,37 @@ public class Item {
 		return items;
 	}
 	
+	public Item getItemById(int itemId) {
+		Item item = new Item();
+		String query = String.format("SELECT * "
+				+ "FROM `MsItem` "
+				+ "WHERE `Item_id` LIKE %d", itemId);
+		ResultSet rs = Database.getInstance().execQuery(query);
+		
+		try {
+			if (rs.next()) {
+				String itemName = rs.getString("Item_name");
+				String itemSize = rs.getString("Item_size");
+				String itemPrice = rs.getString("Item_price");
+				String itemCategory = rs.getString("Item_category");
+				item.setItemName(itemName);
+				item.setItemPrice(itemPrice);
+				item.setItemCategory(itemCategory);
+				item.setItemSize(itemSize);
+				return item;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
 	public boolean updateItem(int itemId, String itemName, String itemSize, String itemPrice, 
-			String itemCategory, String itemWishlist, String itemOfferStatus) {
+			String itemCategory) {
 		
 		String query = "UPDATE `MsItem`"
-				+ "SET `Item_name` = '?', `Item_size` = '?', `Item_price` = '?', `Item_category` = '?', "
-				+ "`Item_wishlist` = '?', `Item_offer_status` = '?'"
+				+ "SET `Item_name` = ?, `Item_size` = ?, `Item_price` = ?, `Item_category` = ? "
 				+ "WHERE `Item_id` = ?";
 		PreparedStatement ps = Database.getInstance().prepareStatement(query);
 		
@@ -184,9 +207,7 @@ public class Item {
 			ps.setString(2, itemSize);
 			ps.setString(3, itemPrice);
 			ps.setString(4, itemCategory);
-			ps.setString(5, itemWishlist);
-			ps.setString(6, itemOfferStatus);
-			ps.setInt(7, itemId);
+			ps.setInt(5, itemId);
 			return ps.executeUpdate() == 1;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -228,7 +249,7 @@ public class Item {
 	
 	public boolean declineItem(int itemId, String itemReason) {
 		String query = "UPDATE `MsItem`"
-				+ "SET `Item_status` = 'Declined', `Item_reason` = '?'"
+				+ "SET `Item_status` = 'Declined', `Item_reason` = ?"
 				+ "WHERE `Item_id` = ?";
 		PreparedStatement ps = Database.getInstance().prepareStatement(query);
 		

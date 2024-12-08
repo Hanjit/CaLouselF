@@ -92,9 +92,20 @@ public class LoginPage {
 				return;
 			}
 			
-			HomePage homePage = new HomePage();
-			Scene homeScene = homePage.getScene();
-			Main.switchScene(homeScene);
+			// Role Validation
+			if (Main.getUser().getRole().equals("Buyer")) {
+				HomePage homePage = new HomePage();
+				Scene homeScene = homePage.getScene();
+				Main.switchScene(homeScene);				
+			} else if (Main.getUser().getRole().equals("Seller")) {
+				SellerHome sellerPage = new SellerHome();
+				Scene sellerScene = sellerPage.getScene();
+				Main.switchScene(sellerScene);
+			} else if (Main.getUser().getRole().equals("Admin")) {
+				AdminHome adminPage = new AdminHome();
+				Scene adminScene = adminPage.getScene();
+				Main.switchScene(adminScene);
+			}
 		});
 		
 		registerButton.setOnMouseClicked(e -> {
