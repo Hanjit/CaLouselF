@@ -27,8 +27,9 @@ public class TransactionPage {
 	ArrayList<Transaction> transactions;
 
 	TableColumn<Transaction, Integer> transactionIdClmn;
-	TableColumn<Item, Integer> itemIdClmn;
 	TableColumn<Item, String> itemNameClmn;
+	TableColumn<Item, Integer> itemCategoryClmn;
+	TableColumn<Item, String> itemSizeClmn;
 	TableColumn<Item, String> itemPriceClmn;
 	
 	GridPane gpForm;
@@ -44,8 +45,9 @@ public class TransactionPage {
 		
 		tvTransactions = new TableView<>();
 		transactionIdClmn = new TableColumn<>("Transaction ID");
-		itemIdClmn = new TableColumn<>("Item ID");
 		itemNameClmn = new TableColumn<>("Item Name");
+		itemCategoryClmn = new TableColumn<>("Item Category");
+		itemSizeClmn = new TableColumn<>("Item Size");
 		itemPriceClmn = new TableColumn<>("Item Price");
 		
 		gpForm = new GridPane();
@@ -57,12 +59,13 @@ public class TransactionPage {
 	private void layouting() {
 		hbButtons.getChildren().add(backButton);
 		
-		transactionIdClmn.setCellValueFactory(new PropertyValueFactory<>("Transaction ID"));
-		itemIdClmn.setCellValueFactory(new PropertyValueFactory<>("Item ID"));
-		itemNameClmn.setCellValueFactory(new PropertyValueFactory<>("Item Name"));
-		itemPriceClmn.setCellValueFactory(new PropertyValueFactory<>("Item Price"));
+		transactionIdClmn.setCellValueFactory(new PropertyValueFactory<>("transactionId"));
+		itemNameClmn.setCellValueFactory(new PropertyValueFactory<>("itemName"));
+		itemCategoryClmn.setCellValueFactory(new PropertyValueFactory<>("itemCategory"));
+		itemSizeClmn.setCellValueFactory(new PropertyValueFactory<>("itemSize"));
+		itemPriceClmn.setCellValueFactory(new PropertyValueFactory<>("itemPrice"));
 		
-		tvTransactions.getColumns().addAll(transactionIdClmn, itemIdClmn, itemNameClmn, itemPriceClmn);
+		tvTransactions.getColumns().addAll(transactionIdClmn, itemNameClmn, itemCategoryClmn, itemSizeClmn, itemPriceClmn);
 		
 		bp.setTop(tvTransactions);
 		bp.setCenter(gpForm);
@@ -70,13 +73,13 @@ public class TransactionPage {
 	}
 	
 	// masih takut salah hehe
-//	private void fillTable() {
-//		int userId = Main.getUser().getUserId();
-//		transactions = TransactionController.getInstance().getTransaction(userId);
-//
-//		tvTransactions.getItems().clear();
-//		tvTransactions.getItems().addAll(transactions);
-//	}
+	private void fillTable() {
+		int userId = Main.getUser().getUserId();
+		transactions = TransactionController.getInstance().getTransaction(userId);
+
+		tvTransactions.getItems().clear();
+		tvTransactions.getItems().addAll(transactions);
+	}
 	
 	private void setAction() {
 		backButton.setOnMouseClicked(e -> {
@@ -89,7 +92,7 @@ public class TransactionPage {
 	public TransactionPage() {
 		initialize();
 		layouting();
-//		fillTable();
+		fillTable();
 		setAction();
 	}
 	

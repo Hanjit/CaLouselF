@@ -11,15 +11,19 @@ public class Transaction {
 	private int itemId;
 	private int transactionId;
 	private String itemName;
+	private String itemCategory;
+	private String itemSize;
+
 	private String itemPrice;
 	
 	public Transaction() {}
 	
-	public Transaction(int userId, int itemId, int transactionId, String itemName, String itemPrice) {
+	public Transaction(int userId, int transactionId, String itemName, String itemCategory, String itemSize, String itemPrice) {
 		this.userId = userId;
-		this.itemId = itemId;
 		this.transactionId = transactionId;
 		this.itemName = itemName;
+		this.itemCategory = itemCategory;
+		this.itemSize = itemSize;
 		this.itemPrice = itemPrice;
 	}
 
@@ -41,7 +45,7 @@ public class Transaction {
 	public ArrayList<Transaction> getTransaction(int userId) {
 		ArrayList<Transaction> transactions = new ArrayList<>();
 //		String query = "SELECT * FROM `MsTransaction` WHERE User_id LIKE ?";
-		String query = String.format("SELECT Transaction_id, User_id, Item_id,  Item_name, Item_price "
+		String query = String.format("SELECT `Transaction_id`, `Item_name`, `Item_category`, `Item_size`, `Item_price` "
 				+ "FROM mstransaction mt "
 				+ "JOIN msitem mi ON mt.Item_id = mi.Item_id "
 				+ "WHERE mt.User_id = %d", userId);
@@ -50,10 +54,11 @@ public class Transaction {
 		try {
 			while (rs.next()) {
 				int transactionId = rs.getInt("Transaction_id");
-				int itemId = rs.getInt("Item_id");
 				String itemName = rs.getString("Item_name");
+				String itemCategory = rs.getString("Item_category");
+				String itemSize = rs.getString("Item_size");
 				String itemPrice = rs.getString("Item_price");
-				transactions.add(new Transaction(userId, itemId, transactionId, itemName, itemPrice));
+				transactions.add(new Transaction(userId, transactionId, itemName, itemCategory, itemSize, itemPrice));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -100,6 +105,22 @@ public class Transaction {
 
 	public void setItemPrice(String itemPrice) {
 		this.itemPrice = itemPrice;
-	};
+	}
+	
+	public String getItemCategory() {
+		return itemCategory;
+	}
+
+	public void setItemCategory(String itemCategory) {
+		this.itemCategory = itemCategory;
+	}
+
+	public String getItemSize() {
+		return itemSize;
+	}
+
+	public void setItemSize(String itemSize) {
+		this.itemSize = itemSize;
+	}
 	
 }

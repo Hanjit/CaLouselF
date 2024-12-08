@@ -88,6 +88,10 @@ public class LoginPage {
 	private void setAction() {
 		loginButton.setOnMouseClicked(e -> {
 			Main.setUser(login());
+			if (Main.getUser() == null) {
+				return;
+			}
+			
 			HomePage homePage = new HomePage();
 			Scene homeScene = homePage.getScene();
 			Main.switchScene(homeScene);
