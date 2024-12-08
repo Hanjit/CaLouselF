@@ -1,5 +1,6 @@
 package view;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 import controller.WishlistController;
@@ -33,7 +34,7 @@ public class WishlistPage extends Application{
 	TableColumn<Wishlist, String> priceColumn;
 	TableColumn<Wishlist, String> categoryColumn;
 	
-	Vector<Wishlist> wishlistItems;
+	ArrayList<Wishlist> wishlistItems;
 	
 	Label itemName, itemSize, itemPrice, itemCategory;
 	
@@ -50,7 +51,7 @@ public class WishlistPage extends Application{
 		gp = new GridPane();
 		hb = new HBox();
 		
-		wishlistItems = new Vector<>();
+		wishlistItems = new ArrayList<>();
 		
 		tvWishlist= new TableView<>();
 		nameColumn = new TableColumn<>("name");
@@ -78,7 +79,7 @@ public class WishlistPage extends Application{
 	}
 
 	private void view() {
-		int userId = 2;
+		int userId = 2; // gak paham buat ngambil userIdnya
         wishlistItems = WishlistController.getInstance().viewWishlist(userId);
 
         tvWishlist.getItems().clear();

@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 import model.Item;
@@ -23,15 +24,14 @@ public class WishlistController {
 	}
 	
 	public boolean addWishlist(int itemId, int userId) {
-		Wishlist wishlist = new Wishlist(itemId, userId);
-		return wishlistModel.addWishlist(wishlist);
+		return wishlistModel.addWishlist(itemId, userId);
 	}
 	
 	public boolean deleteWishlist(int wishlistId) {
 		return wishlistModel.deleteWishlist(wishlistId);
 	}
 	
-	public Vector<Wishlist> viewWishlist(int userId){
+	public ArrayList<Wishlist> viewWishlist(int userId){
 		return wishlistModel.viewWishlist(userId);
 	}
 }
