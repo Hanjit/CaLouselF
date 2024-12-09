@@ -110,7 +110,8 @@ public class HomePage {
 		purchaseBtn.setOnMouseClicked(e -> {
 			resetButtonVisibility();
 			// Create new transaction
-//			TransactionController.createTransaction(user.getUserId, tempId);
+			TransactionController.getInstance().createTransaction(Main.getUser().getUserId(), tempId);
+			// Remove item from wishlist
 			fillTable();
 			tempId = -1;
 		});
@@ -130,7 +131,9 @@ public class HomePage {
 		
 		offerBtn.setOnMouseClicked(e -> {
 			resetButtonVisibility();
-			// pindah ke page offer
+			OfferPage offerPage = new OfferPage(tempId, Main.getUser().getUserId());
+			Scene offerScene = offerPage.getScene();
+			Main.switchScene(offerScene);
 			tempId = -1;
 		});
 		

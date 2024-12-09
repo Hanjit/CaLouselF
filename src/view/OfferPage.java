@@ -1,20 +1,24 @@
 package view;
 
+import controller.ItemController;
 import controller.OfferController;
 import controller.TransactionController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import model.Item;
 
 public class OfferPage {
-	private int itemId, sellerId;
+	private Item item;;
 	
 	Scene sc;
 	BorderPane bp;
@@ -25,6 +29,7 @@ public class OfferPage {
 	TextField priceField;
 	
 	Button offerButton, backButton;
+	Alert alert;
 	
 	private void initialize() {
 		bp = new BorderPane();
@@ -48,6 +53,8 @@ public class OfferPage {
 		backButton = new Button("Back");
 		offerButton.setPrefWidth(100);
 		backButton.setPrefWidth(100);
+		
+		alert = new Alert(AlertType.NONE, "", ButtonType.OK);
 	}
 	
 	private void layouting() {
@@ -63,29 +70,35 @@ public class OfferPage {
 		BorderPane.setMargin(gpForm, new Insets(100, 0, 100, 0));
 	}
 	
-//	private boolean makeOffer() {
-//		String offerPrice = priceField.getText().toString();
-//		
-////		return OfferController.getInstance().createOffer(userId, itemId, sellerId, offerPrice, highestOffer);
-//	}
+	private boolean makeOffer() {
+		int offerPrice = Integer.parseInt(priceField.getText().toString());
+		
+		return OfferController.getInstance().createOffer(Main.getUser().getUserId(), item.getItemId(), 
+				item.getSellerId(), offerPrice, OfferController.getInstance().getHighestOffer(item.getItemId()));
+	}
 	
-//	private void setAction() {
-//		Item item = getItemById(tempId);
-//		
-//		offerButton.setOnMouseClicked(e -> {
-//			if (condition) {
-//				
-//			}
-//		});
-//	}
+	private void setAction() {
+		offerButton.setOnMouseClicked(e -> {
+			if (makeOffer()) {
+				alert.setContentText("Offer Submitted!");
+				alert.showAndWait();
+				HomePage homePage = new HomePage();
+				Scene homeScene = homePage.getScene();
+				Main.switchScene(homeScene);	
+			} else {
+				alert.setContentText("Invalid offer!");
+				alert.showAndWait();
+				return;
+			}
+		});
+	}
 	
 	public OfferPage(int itemId, int sellerId) {
-		this.itemId = itemId;
-		this.sellerId = sellerId;
+		item = ItemController.getInstance().getItemById(itemId);
 		
 		initialize();
 		layouting();
-//		setAction();
+		setAction();
 	}
 	
 	public Scene getScene() {

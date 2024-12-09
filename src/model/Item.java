@@ -11,6 +11,7 @@ import javafx.scene.control.Alert.AlertType;
 
 public class Item {
 	private int itemId;
+	private int sellerId;
 	private String itemName;
 	private String itemSize;
 	private String itemPrice;
@@ -319,6 +320,14 @@ public class Item {
 
 	public void setItemReason(String itemReason) {
 		this.itemReason = itemReason;
+	}
+
+	public int getSellerId() {
+		return sellerId;
+	}
+
+	public void setSellerId(int sellerId) {
+		this.sellerId = sellerId;
 	}
 	
 }
