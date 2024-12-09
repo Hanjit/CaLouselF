@@ -72,7 +72,6 @@ public class TransactionPage {
 		bp.setBottom(hbButtons);
 	}
 	
-	// masih takut salah hehe
 	private void fillTable() {
 		int userId = Main.getUser().getUserId();
 		transactions = TransactionController.getInstance().getTransaction(userId);

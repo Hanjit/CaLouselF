@@ -28,7 +28,7 @@ public class Transaction {
 	}
 
 	public boolean createTransaction(int userId, int itemId) {
-		String query = "INSERT INTO `MsTransaction` VALUES('?', '?')";
+		String query = "INSERT INTO `MsTransaction` (`User_id`, `Item_id`) VALUES(?, ?)";
 		PreparedStatement ps = Database.getInstance().prepareStatement(query);
 		
 		try {
