@@ -13,6 +13,8 @@ public class Offer {
 	private int itemId;
 	private int sellerId;
 	private int itemPrice;
+	private String itemCategory;
+	private String itemSize;
 	private String itemName;
 	private String offerStatus;
 	private String offerReason;
@@ -25,7 +27,8 @@ public class Offer {
 		this.offerReason = offerReason;
 	}
 	
-	public Offer(int offerId, int userId, int itemId, String itemName, int itemPrice, int offerPrice, String offerStatus, String offerReason) {
+	public Offer(int offerId, int userId, int itemId, String itemName, int itemPrice, int offerPrice, String offerStatus, String offerReason, 
+			String itemCategory, String itemSize) {
 		super();
 		this.offerId = offerId;
 		this.userId = userId;
@@ -35,6 +38,8 @@ public class Offer {
 		this.offerPrice = offerPrice;
 		this.offerStatus = offerStatus;
 		this.offerReason = "";
+		this.itemCategory = itemCategory;
+		this.itemSize = itemSize;
 	}
 	
 	public boolean createOffer(int userId, int itemId, int sellerId, int offerPrice) {
@@ -61,10 +66,10 @@ public class Offer {
 	// for seller
 	public ArrayList<Offer> getOffer(int sellerId) {
 		ArrayList<Offer> offers = new ArrayList<>();
-		String query = String.format("SELECT `Offer_id`, `User_id`, `Item_id`, `Item_price`, `Offer_price`, `Offer_status`, `Offer_reason`"
-				+ "FROM `MsOffer` mo"
-				+ "JOIN `MsItem` ON mo.Item_id = mi.Item_id"
-				+ "WHERE mo.Seller_id = %d"
+		String query = String.format("SELECT `Offer_id`, `User_id`, mo.`Item_id`, `Item_price`, `Offer_price`, `Offer_status`, `Offer_reason`, `Item_name`, `Item_category`, `Item_size` "
+				+ "FROM `MsOffer` mo "
+				+ "JOIN `MsItem` mi ON mo.Item_id = mi.Item_id "
+				+ "WHERE mo.Seller_id = %d "
 				+ "ORDER BY `Offer_status`", sellerId);
 		ResultSet rs = Database.getInstance().execQuery(query);
 		
@@ -78,7 +83,9 @@ public class Offer {
 				String itemName = rs.getString("Item_name");
 				String offerStatus = rs.getString("Offer_status");
 				String offerReason = rs.getString("Offer_reason");
-				offers.add(new Offer(offerId, userId, itemId, itemName, itemPrice, offerPrice, offerStatus, offerReason));
+				String itemCategory = rs.getString("Item_category");
+				String itemSize = rs.getString("Item_size");
+				offers.add(new Offer(offerId, userId, itemId, itemName, itemPrice, offerPrice, offerStatus, offerReason, itemCategory, itemSize));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -160,8 +167,8 @@ public class Offer {
 	
 	public boolean declineOffer(int offerId, String offerReason) {
 		
-		String query = "UPDATE `MsOffer`"
-				+ "SET `Offer_status` = 'Declined', `Offer_reason` = '?'"
+		String query = "UPDATE `MsOffer` "
+				+ "SET `Offer_status` = 'Declined', `Offer_reason` = ? "
 				+ "WHERE `Offer_id` = ?";
 		PreparedStatement ps = Database.getInstance().prepareStatement(query);
 		
@@ -211,6 +218,50 @@ public class Offer {
 	}
 	public void setOfferReason(String offerReason) {
 		this.offerReason = offerReason;
+	}
+
+	public int getItemPrice() {
+		return itemPrice;
+	}
+
+	public void setItemPrice(int itemPrice) {
+		this.itemPrice = itemPrice;
+	}
+
+	public String getItemName() {
+		return itemName;
+	}
+
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
+	}
+
+	public int getOfferPrice() {
+		return offerPrice;
+	}
+
+	public void setOfferPrice(int offerPrice) {
+		this.offerPrice = offerPrice;
+	}
+
+	public void setItemId(int itemId) {
+		this.itemId = itemId;
+	}
+
+	public String getItemCategory() {
+		return itemCategory;
+	}
+
+	public void setItemCategory(String itemCategory) {
+		this.itemCategory = itemCategory;
+	}
+
+	public String getItemSize() {
+		return itemSize;
+	}
+
+	public void setItemSize(String itemSize) {
+		this.itemSize = itemSize;
 	}
 	
 	

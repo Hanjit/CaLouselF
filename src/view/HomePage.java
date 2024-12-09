@@ -109,7 +109,6 @@ public class HomePage {
 		
 		purchaseBtn.setOnMouseClicked(e -> {
 			resetButtonVisibility();
-			// Create new transaction
 			TransactionController.getInstance().createTransaction(Main.getUser().getUserId(), tempId);
 			// Remove item from wishlist
 			fillTable();
@@ -124,7 +123,7 @@ public class HomePage {
 		wishlistBtn.setOnMouseClicked(e -> {
 			resetButtonVisibility();
 			// Insert wishlist
-//			WishlistController.createWishlist(user.getUserId, tempId);
+			WishlistController.getInstance().addWishlist(Main.getUser().getUserId(), tempId);
 			fillTable();
 			tempId = -1;
 		});
@@ -138,9 +137,7 @@ public class HomePage {
 		});
 		
 		historyBtn.setOnMouseClicked(e -> {
-			resetButtonVisibility();
-			
-			// pindah ke page transaction
+			resetButtonVisibility();			
 			TransactionPage transactionPage = new TransactionPage();
 			Scene transactionScene = transactionPage.getScene();
 			Main.switchScene(transactionScene);

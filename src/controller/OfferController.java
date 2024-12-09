@@ -1,8 +1,10 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import javafx.scene.control.Alert;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Alert.AlertType;
 import model.Offer;
 
@@ -66,11 +68,20 @@ public class OfferController {
 		return offerModel.acceptOffer(offerId);
 	}
 	
-	public boolean declineOffer(int offerId, String offerReason) {
+	public boolean declineOffer(int offerId) {
+		
+		TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Reason Required");
+        dialog.setHeaderText("Enter your reason");
+        
+        Optional<String> result = dialog.showAndWait();
+        
+        String offerReason = result.get();
 		
 		if (offerReason.isEmpty()) {
-			errorAlert("Reason cannot be empty!");
+			errorAlert("Reason cannot be empty");
 		}
+		
 		
 		return offerModel.declineOffer(offerId, offerReason);
 	}

@@ -151,7 +151,9 @@ public class SellerHome {
 		});
 		
 		offerBtn.setOnMouseClicked(e -> {
-			// to view my offer page for seller
+			SellerOffer sellerOffer = new SellerOffer();
+			Scene offerScene = sellerOffer.getScene();
+			Main.switchScene(offerScene);
 		});
 	}
 	
