@@ -87,6 +87,26 @@ public class Offer {
 		return offers;
 	}
 	
+	public int getHighestOffer(int itemId) {
+		int highestOffer = 0;
+		String query = String.format("SELECT `Offer_price` FROM `MsOffer` "
+				+ "WHERE `Item_id` = %d "
+				+ "ORDER BY `Offer_price` DESC"
+				+ "LIMIT 1", itemId);
+		ResultSet rs = Database.getInstance().execQuery(query);
+		
+		try {
+			if (rs.next()) {
+				highestOffer = rs.getInt("Offer_price");
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return highestOffer;
+	}
+	
 	// for user declined offer alert
 	public ArrayList<Offer> getDeclinedOffer(int userId) {
 		ArrayList<Offer> offers = new ArrayList<>();
