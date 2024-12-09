@@ -46,6 +46,11 @@ public class OfferController {
 		return offerModel.getOffer(sellerId);
 	}
 	
+	public int getHighestOffer(int itemId) {
+		
+		return offerModel.getHighestOffer(itemId);
+	}
+	
 	public ArrayList<Offer> getDeclinedOffer(int userId) {
 		
 		return offerModel.getDeclinedOffer(userId);

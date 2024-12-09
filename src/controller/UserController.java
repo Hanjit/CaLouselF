@@ -46,6 +46,47 @@ public class UserController {
 	}
 	
 	public boolean register(String username, String password, String phoneNumber, String address, String role) {
+		// validate username
+		if (username.isEmpty()) {
+			
+		} else if (username.length() < 3) {
+			
+		} else if (!checkUsername(username)) {
+			
+		}
+		
+		// validate password
+		if (password.isEmpty()) {
+			
+		} else if (password.length() < 8) {
+			
+		} else if (!password.matches(".*[!@#$%^&*].*")) {
+			
+		}
+		
+		// validate phone number
+		if (!phoneNumber.startsWith("+62")) {
+			
+		} else if (phoneNumber.length() < 12) {
+			
+		} else if (!phoneNumber.substring(3).matches("\\d+")) {
+			
+		}
+		
+		// validate address
+		if (address.isEmpty()) {
+			
+		}
+		
+		// validate role
+		if (role.isEmpty()) {
+			
+		}
+		
 		return userModel.register(username, password, phoneNumber, address, role);
+	}
+	
+	private boolean checkUsername(String username) {
+		return userModel.getUserByUsername(username);
 	}
 }

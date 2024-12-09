@@ -31,30 +31,10 @@ public class User {
     	User user = new User();
     	String query = String.format("SELECT * "
     			+ "FROM msuser "
-    			+ "WHERE Username LIKE '%s' "
+    			+ "WHERE BINARY Username LIKE '%s' "
     			+ "AND Password LIKE '%s'", username, password);
     	ResultSet rs = Database.getInstance().execQuery(query);
-    	
-//    	if (rs == null) {
-//    		// Alert login failed
-//    		return null;
-//    	} else {
-//    		try {
-//				int userId = rs.getInt("User_id");
-//				String phoneNumber = rs.getString("Phone_number");
-//				String address = rs.getString("Address");
-//				String role = rs.getString("Role");
-//				user.setUserId(userId);
-//				user.setUsername(username);
-//				user.setPassword(password);
-//				user.setPhoneNumber(phoneNumber);
-//				user.setAddress(address);
-//				user.setRole(role);
-//				return user;
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//    	}
+ 
     	
     	try {
 			if (rs.next()) {
@@ -88,6 +68,24 @@ public class User {
     		ps.setString(5, role);
     		return ps.executeUpdate() == 1;
     	} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	
+    	return false;
+    }
+    
+    public boolean getUserByUsername(String username) {
+    	String query = "SELECT COUNT(*) FROM msuser WHERE Username = ?";
+    	PreparedStatement ps = Database.getInstance().prepareStatement(query);
+    	
+    	try {
+			ps.setString(1, username);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				return rs.getInt(1) == 0;
+			}
+			
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
     	
