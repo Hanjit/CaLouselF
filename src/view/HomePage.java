@@ -44,12 +44,13 @@ public class HomePage {
 	
 	Label itemName, itemSize, itemPrice, itemCategory;
 	
-	Button purchaseBtn, offerBtn, wishlistBtn, historyBtn, cancelBtn;
+	Button purchaseBtn, offerBtn, wishlistBtn, historyBtn, cancelBtn, viewWishlistBtn;
 	
 	Alert alert;
 	
 	private void resetButtonVisibility() {
 		historyBtn.setVisible(true);
+		viewWishlistBtn.setVisible(true);
 		purchaseBtn.setVisible(false);
 		offerBtn.setVisible(false);
 		wishlistBtn.setVisible(false);
@@ -58,7 +59,7 @@ public class HomePage {
 	
 	private void initialize() {
 		bp = new BorderPane();
-		sc = new Scene(bp);
+		sc = new Scene(bp, 600, 500);
 		gp = new GridPane();
 		hb = new HBox();
 		
@@ -75,13 +76,14 @@ public class HomePage {
 		wishlistBtn = new Button("Add to Wishlist");
 		historyBtn = new Button("Purchase History");
 		cancelBtn = new Button("Cancel");
+		viewWishlistBtn = new Button("View WIshlist");
 		
 		alert = new Alert(AlertType.CONFIRMATION);
 	}
 	
 	private void layouting() {
 		resetButtonVisibility();
-		hb.getChildren().addAll(historyBtn, purchaseBtn, offerBtn, wishlistBtn, cancelBtn);
+		hb.getChildren().addAll(historyBtn, viewWishlistBtn, purchaseBtn, offerBtn, wishlistBtn, cancelBtn);
 		
 		nameColumn.setCellValueFactory(new PropertyValueFactory<>("itemName"));
 		sizeColumn.setCellValueFactory(new PropertyValueFactory<>("itemSize"));
@@ -122,12 +124,18 @@ public class HomePage {
 			if (result.isPresent() && result.get() == ButtonType.OK) {
 				resetButtonVisibility();
 				TransactionController.getInstance().createTransaction(Main.getUser().getUserId(), tempId);
-				// Remove item from wishlist
+				WishlistController.getInstance().deleteAllWishlist(tempId);
 				fillTable();
 				tempId = -1;				
 			} else {
 				return;
 			}
+		});
+		
+		viewWishlistBtn.setOnMouseClicked(e -> {
+			WishlistPage wishlistPage = new WishlistPage();
+			Scene wishlistScene = wishlistPage.getScene();
+			Main.switchScene(wishlistScene);
 		});
 		
 		cancelBtn.setOnMouseClicked(e -> {
@@ -138,7 +146,7 @@ public class HomePage {
 		wishlistBtn.setOnMouseClicked(e -> {
 			resetButtonVisibility();
 			// Insert wishlist
-			WishlistController.getInstance().addWishlist(Main.getUser().getUserId(), tempId);
+			WishlistController.getInstance().addWishlist(tempId, Main.getUser().getUserId());
 			fillTable();
 			tempId = -1;
 		});

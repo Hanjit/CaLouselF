@@ -120,9 +120,14 @@ public class SellerHome {
 			Item item = modelSelection.getSelectedItem();
 			tempId = item.getItemId();
 			
+			
 			if (onMyItems) {
 				editItemBtn.setVisible(true);
 				deleteItemBtn.setVisible(true);				
+			}
+			if (item.getItemStatus().equals("Declined") || item.getItemStatus().equals("Waiting")) {
+				deleteItemBtn.setVisible(false);
+				editItemBtn.setVisible(false);
 			}
 		});
 		

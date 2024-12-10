@@ -18,7 +18,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import model.Wishlist;
 
-public class WishlistPage extends Application{
+public class WishlistPage{
 
 	Scene sc;
 	BorderPane bp;
@@ -62,10 +62,10 @@ public class WishlistPage extends Application{
 	}
 	
 	private void layouting() {
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        sizeColumn.setCellValueFactory(new PropertyValueFactory<>("size"));
-        priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
-        categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("itemName"));
+        sizeColumn.setCellValueFactory(new PropertyValueFactory<>("itemSize"));
+        priceColumn.setCellValueFactory(new PropertyValueFactory<>("itemPrice"));
+        categoryColumn.setCellValueFactory(new PropertyValueFactory<>("itemCategory"));
 
         tvWishlist.getColumns().addAll(nameColumn, sizeColumn, priceColumn, categoryColumn);
 
@@ -77,7 +77,7 @@ public class WishlistPage extends Application{
 	}
 
 	private void view() {
-		int userId = Main.getUser().getUserId();; 
+		int userId = Main.getUser().getUserId(); 
         wishlistItems = WishlistController.getInstance().viewWishlist(userId);
 
         tvWishlist.getItems().clear();
@@ -87,15 +87,7 @@ public class WishlistPage extends Application{
 	private void delete() {
 		 Wishlist selectedItem = tvWishlist.getSelectionModel().getSelectedItem();
 	        if (selectedItem != null) {
-	            boolean result = WishlistController.getInstance().deleteWishlist(selectedItem.getWishlistId());
-	            if (result) {
-	                System.out.println("Remove success!");
-	                view();
-	            } else {
-	                System.out.println("Remove failed!");
-	            }
-	        } else {
-	            System.out.println("No item selected");
+	            WishlistController.getInstance().deleteWishlist(selectedItem.getWishlistId());
 	        }
 	}
 
@@ -120,15 +112,16 @@ public class WishlistPage extends Application{
 			}
 		});
     }
-	
-	public void start(Stage primaryStage) throws Exception {
-		initialize();
+    
+    public WishlistPage() {
+    	initialize();
 		layouting();
 		view();
 		setAction();
-		
-		primaryStage.setScene(sc);
-		primaryStage.show();
+    }
+	
+	public Scene getScene() {
+		return sc;
 	}
 	
 }

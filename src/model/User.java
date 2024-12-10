@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class User {
     private int userId;
@@ -90,6 +91,28 @@ public class User {
 		}
     	
     	return false;
+    }
+    
+    // Get declined offers for alert
+    public ArrayList<Offer> getDeclinedOffers(String userId) {
+    	ArrayList<Offer> offers = new ArrayList<>();
+    	String query = String.format("SELECT `Offer_id`, `Offer_status`, `Offer_reason` "
+    			+ "FROM `MsOffer` "
+    			+ "WHERE `User_id` = %d AND "
+    			+ "`Offer_status` LIKE '%s'", userId, "Declined");
+    	ResultSet rs = Database.getInstance().execQuery(query);
+    	
+    	try {
+			while (rs.next()) {
+				int id = rs.getInt("Offer_id");
+				String reason = rs.getString("Offer_reason");
+				offers.add(new Offer(id, reason));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	
+    	return offers;
     }
 
     public int getUserId() {
