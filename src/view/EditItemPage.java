@@ -114,10 +114,6 @@ public class EditItemPage {
 				SellerHome sellerPage = new SellerHome();
 				Scene sellerScene = sellerPage.getScene();
 				Main.switchScene(sellerScene);
-			} else {
-				alert.setContentText("Edit Failed!");
-				alert.showAndWait();
-				return;
 			}
 		});
 		

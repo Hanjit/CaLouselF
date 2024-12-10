@@ -146,6 +146,7 @@ public class ItemController {
 		
 		if (itemReason.isEmpty()) {
 			errorAlert("Reason cannot be empty");
+			return false;
 		}
 		
 		return itemModel.declineItem(itemId, itemReason);

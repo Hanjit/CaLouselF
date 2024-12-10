@@ -182,17 +182,20 @@ public class Item {
 				String itemSize = rs.getString("Item_size");
 				String itemPrice = rs.getString("Item_price");
 				String itemCategory = rs.getString("Item_category");
+				int sellerId = rs.getInt("Seller_id");
+				item.setItemId(itemId);
 				item.setItemName(itemName);
 				item.setItemPrice(itemPrice);
 				item.setItemCategory(itemCategory);
 				item.setItemSize(itemSize);
+				item.setSellerId(sellerId);
 				return item;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		return null;
+		return item;
 	}
 	
 	public boolean updateItem(int itemId, String itemName, String itemSize, String itemPrice, 
