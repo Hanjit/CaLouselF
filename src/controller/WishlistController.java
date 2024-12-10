@@ -28,6 +28,10 @@ public class WishlistController {
 		return wishlistModel.deleteWishlist(wishlistId);
 	}
 	
+	public boolean deleteAllWishlist(int itemId) {
+		return wishlistModel.deleteAllWishlist(itemId);
+	}
+	
 	public ArrayList<Wishlist> viewWishlist(int userId){
 		return wishlistModel.viewWishlist(userId);
 	}

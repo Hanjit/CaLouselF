@@ -77,7 +77,7 @@ public class WishlistPage extends Application{
 	}
 
 	private void view() {
-		int userId = 2; // gak paham buat ngambil userIdnya
+		int userId = Main.getUser().getUserId();; 
         wishlistItems = WishlistController.getInstance().viewWishlist(userId);
 
         tvWishlist.getItems().clear();
