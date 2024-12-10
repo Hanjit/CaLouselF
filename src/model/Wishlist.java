@@ -89,7 +89,7 @@ public class Wishlist {
 	
 	// Method yang digunakan untuk menampilkan item apa saja yang di masuk kedalam wishlist
 	public ArrayList<Wishlist> viewWishlist(int userId) {
-		String query = String.format("SELECT msitem.Item_id, msitem.Item_name, msitem.Item_size, msitem.Item_price, msitem.Item_category FROM `mswishlist` JOIN msitem ON mswishlist.Item_id = msitem.Item_id WHERE mswishlist.User_id = %d" , userId);
+		String query = String.format("SELECT mswishlist.Wishlist_id, msitem.Item_id, msitem.Item_name, msitem.Item_size, msitem.Item_price, msitem.Item_category FROM `mswishlist` JOIN msitem ON mswishlist.Item_id = msitem.Item_id WHERE mswishlist.User_id = %d" , userId);
 		ArrayList<Wishlist> wishlist = new ArrayList<>();
 		ResultSet rs = Database.getInstance().execQuery(query);
 		try {
@@ -126,6 +126,38 @@ public class Wishlist {
 	}
 	public void setUserId(int userId) {
 		this.userId = userId;
+	}
+
+	public String getItemName() {
+		return itemName;
+	}
+
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
+	}
+
+	public String getItemSize() {
+		return itemSize;
+	}
+
+	public void setItemSize(String itemSize) {
+		this.itemSize = itemSize;
+	}
+
+	public String getItemPrice() {
+		return itemPrice;
+	}
+
+	public void setItemPrice(String itemPrice) {
+		this.itemPrice = itemPrice;
+	}
+
+	public String getItemCategory() {
+		return itemCategory;
+	}
+
+	public void setItemCategory(String itemCategory) {
+		this.itemCategory = itemCategory;
 	}
 	
 	
