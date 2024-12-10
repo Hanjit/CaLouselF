@@ -98,7 +98,7 @@ public class Offer {
 		int highestOffer = 0;
 		String query = String.format("SELECT `Offer_price` FROM `MsOffer` "
 				+ "WHERE `Item_id` = %d "
-				+ "ORDER BY `Offer_price` DESC"
+				+ "ORDER BY `Offer_price` DESC "
 				+ "LIMIT 1", itemId);
 		ResultSet rs = Database.getInstance().execQuery(query);
 		

@@ -71,7 +71,13 @@ public class OfferPage {
 	}
 	
 	private boolean makeOffer() {
-		int offerPrice = Integer.parseInt(priceField.getText().toString());
+		String input = priceField.getText().toString().trim();
+		int offerPrice;
+		if (input.isEmpty()) {
+		    offerPrice = 0;
+		} else {
+		    offerPrice = Integer.parseInt(input);
+		}
 		
 		return OfferController.getInstance().createOffer(Main.getUser().getUserId(), item.getItemId(), 
 				item.getSellerId(), offerPrice, OfferController.getInstance().getHighestOffer(item.getItemId()));
@@ -85,17 +91,19 @@ public class OfferPage {
 				HomePage homePage = new HomePage();
 				Scene homeScene = homePage.getScene();
 				Main.switchScene(homeScene);	
-			} else {
-				alert.setContentText("Invalid offer!");
-				alert.showAndWait();
-				return;
 			}
+		});
+		
+		backButton.setOnMouseClicked(e -> {
+			HomePage homePage = new HomePage();
+			Scene homeScene = homePage.getScene();
+			Main.switchScene(homeScene);
 		});
 	}
 	
 	public OfferPage(int itemId, int sellerId) {
 		item = ItemController.getInstance().getItemById(itemId);
-		
+		System.out.println(item.getSellerId());
 		initialize();
 		layouting();
 		setAction();

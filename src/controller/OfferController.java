@@ -34,10 +34,12 @@ public class OfferController {
 	
 	public boolean createOffer(int userId, int itemId, int sellerId, int offerPrice, int highestOffer) {
 		
-		if (offerPrice == 0) {
+		if (offerPrice == 0 ) {
 			errorAlert("Offer cannot be empty or zero!");
+			return false;
 		} else if(offerPrice < highestOffer) {
 			errorAlert(String.format("Offer must be higher than %d", highestOffer));
+			return false;
 		}
 		
 		return offerModel.createOffer(userId, itemId, sellerId, offerPrice);

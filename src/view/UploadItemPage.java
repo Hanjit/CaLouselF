@@ -111,11 +111,7 @@ public class UploadItemPage {
 				SellerHome sellerPage = new SellerHome();
 				Scene sellerScene = sellerPage.getScene();
 				Main.switchScene(sellerScene);
-			} else {
-				alert.setContentText("Upload Failed!");
-				alert.showAndWait();
-				return;
-			}
+			} 
 		});
 		
 		backButton.setOnMouseClicked(e -> {

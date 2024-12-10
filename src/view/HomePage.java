@@ -2,6 +2,7 @@ package view;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Optional;
 
 import connection.Database;
 import controller.ItemController;
@@ -9,7 +10,10 @@ import controller.TransactionController;
 import controller.WishlistController;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
@@ -42,6 +46,8 @@ public class HomePage {
 	
 	Button purchaseBtn, offerBtn, wishlistBtn, historyBtn, cancelBtn;
 	
+	Alert alert;
+	
 	private void resetButtonVisibility() {
 		historyBtn.setVisible(true);
 		purchaseBtn.setVisible(false);
@@ -69,6 +75,8 @@ public class HomePage {
 		wishlistBtn = new Button("Add to Wishlist");
 		historyBtn = new Button("Purchase History");
 		cancelBtn = new Button("Cancel");
+		
+		alert = new Alert(AlertType.CONFIRMATION);
 	}
 	
 	private void layouting() {
@@ -108,11 +116,18 @@ public class HomePage {
 		});
 		
 		purchaseBtn.setOnMouseClicked(e -> {
-			resetButtonVisibility();
-			TransactionController.getInstance().createTransaction(Main.getUser().getUserId(), tempId);
-			// Remove item from wishlist
-			fillTable();
-			tempId = -1;
+			alert.setContentText("Confirm Purchase?");
+			Optional<ButtonType> result = alert.showAndWait();
+			
+			if (result.isPresent() && result.get() == ButtonType.OK) {
+				resetButtonVisibility();
+				TransactionController.getInstance().createTransaction(Main.getUser().getUserId(), tempId);
+				// Remove item from wishlist
+				fillTable();
+				tempId = -1;				
+			} else {
+				return;
+			}
 		});
 		
 		cancelBtn.setOnMouseClicked(e -> {
@@ -147,6 +162,7 @@ public class HomePage {
 	public HomePage() {
 		initialize();
 		layouting();
+		fillTable();
 		addEvent();
 	}
 	

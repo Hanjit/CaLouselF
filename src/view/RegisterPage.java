@@ -4,11 +4,14 @@ import controller.UserController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -31,6 +34,8 @@ public class RegisterPage {
 	ToggleGroup role;
 	
 	Button registerButton, backButton;
+	
+	Alert alert;
 	
 	private void initialize() {
 		bp = new BorderPane();
@@ -78,6 +83,8 @@ public class RegisterPage {
 		backButton = new Button("Back");
 		registerButton.setPrefWidth(100);
 		backButton.setPrefWidth(100);
+		
+		alert = new Alert(AlertType.NONE, "", ButtonType.OK);
 	}
 	
 	private void layouting() {
@@ -116,7 +123,11 @@ public class RegisterPage {
 		String address = addressField.getText().toString();
 		
 		RadioButton selectedRole = (RadioButton) role.getSelectedToggle();
-		String role = selectedRole.getText();
+		
+		String role = null;
+		if (selectedRole != null) {
+			role = selectedRole.getText();			
+		}
 
 		return UserController.getInstance().register(username, password, phoneNumber, address, role);
 		
@@ -125,11 +136,12 @@ public class RegisterPage {
 	private void setAction() {
 		registerButton.setOnMouseClicked(e -> {
 			if (register()) {
-				System.out.println("Register Successfull");
+				alert.setContentText("Register Successful!");
+				alert.showAndWait();
+				LoginPage loginPage = new LoginPage();
+				Scene loginScene = loginPage.getScene();
+				Main.switchScene(loginScene);
 			} 
-			else {
-				System.out.println("Register Failed");
-			}
 		});
 		
 		backButton.setOnMouseClicked(e -> {
