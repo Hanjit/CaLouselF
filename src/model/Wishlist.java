@@ -69,9 +69,27 @@ public class Wishlist {
 		return false;
 	}
 	
+	// Method yang digunakan untuk menghapus wishlist dari seluruh user setelah ada purchase
+	public boolean deleteAllWishlist(int itemId) {
+		
+		String query = "DELETE FROM `mswishlist` WHERE `Item_id` = ?";
+		PreparedStatement ps = Database.getInstance().prepareStatement(query);
+		
+		try {
+			ps.setInt(1, itemId);
+			return ps.executeUpdate() == 1;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
+	
+	
+	
 	// Method yang digunakan untuk menampilkan item apa saja yang di masuk kedalam wishlist
 	public ArrayList<Wishlist> viewWishlist(int userId) {
-		String query = String.format("SELECT msitem.Item_id, msitem.Item_name, msitem.Item_size, msitem.Item_price, msitem.Item_category FROM `mswishlist` JOIN msitem ON mswishlist.Item_id = msitem.Item_id WHERE 'User_id' = %d" , userId);
+		String query = String.format("SELECT msitem.Item_id, msitem.Item_name, msitem.Item_size, msitem.Item_price, msitem.Item_category FROM `mswishlist` JOIN msitem ON mswishlist.Item_id = msitem.Item_id WHERE mswishlist.User_id = %d" , userId);
 		ArrayList<Wishlist> wishlist = new ArrayList<>();
 		ResultSet rs = Database.getInstance().execQuery(query);
 		try {
