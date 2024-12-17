@@ -2,7 +2,6 @@ package view;
 
 import controller.ItemController;
 import controller.OfferController;
-import controller.TransactionController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;

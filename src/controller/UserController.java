@@ -2,7 +2,6 @@ package controller;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import model.Item;
 import model.User;
 
 public class UserController {
