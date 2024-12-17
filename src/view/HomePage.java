@@ -9,6 +9,8 @@ import controller.ItemController;
 import controller.TransactionController;
 import controller.WishlistController;
 import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -23,6 +25,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 import model.Item;
 
@@ -59,9 +62,9 @@ public class HomePage {
 	
 	private void initialize() {
 		bp = new BorderPane();
-		sc = new Scene(bp, 600, 500);
+		sc = new Scene(bp, 800, 600);
 		gp = new GridPane();
-		hb = new HBox();
+		hb = new HBox(10);
 		
 		items = new ArrayList<>();
 		
@@ -76,7 +79,13 @@ public class HomePage {
 		wishlistBtn = new Button("Add to Wishlist");
 		historyBtn = new Button("Purchase History");
 		cancelBtn = new Button("Cancel");
-		viewWishlistBtn = new Button("View WIshlist");
+		viewWishlistBtn = new Button("View Wishlist");
+		purchaseBtn.setPrefWidth(200);
+		offerBtn.setPrefWidth(200);
+		wishlistBtn.setPrefWidth(200);
+		historyBtn.setPrefWidth(200);
+		cancelBtn.setPrefWidth(200);
+		viewWishlistBtn.setPrefWidth(200);
 		
 		alert = new Alert(AlertType.CONFIRMATION);
 	}
@@ -84,6 +93,7 @@ public class HomePage {
 	private void layouting() {
 		resetButtonVisibility();
 		hb.getChildren().addAll(historyBtn, viewWishlistBtn, purchaseBtn, offerBtn, wishlistBtn, cancelBtn);
+		hb.setPadding(new Insets(10));
 		
 		nameColumn.setCellValueFactory(new PropertyValueFactory<>("itemName"));
 		sizeColumn.setCellValueFactory(new PropertyValueFactory<>("itemSize"));
@@ -91,9 +101,16 @@ public class HomePage {
 		categoryColumn.setCellValueFactory(new PropertyValueFactory<>("itemCategory"));
 		
 		tvItems.getColumns().addAll(nameColumn, sizeColumn, priceColumn, categoryColumn);
+		tvItems.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+		GridPane.setHgrow(tvItems, Priority.ALWAYS); 
+	    GridPane.setVgrow(tvItems, Priority.ALWAYS);
+	    
+	    gp.setAlignment(Pos.CENTER);
+	    gp.add(tvItems, 0, 0);
 		
-		bp.setTop(tvItems);
-		bp.setCenter(hb);	
+		bp.setCenter(gp);
+		bp.setBottom(hb);
+		bp.setPadding(new Insets(20));
 	}
 	
 	private void fillTable() {

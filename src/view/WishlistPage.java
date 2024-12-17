@@ -6,6 +6,7 @@ import controller.WishlistController;
 import javafx.application.Application;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -15,6 +16,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 import model.Wishlist;
 
@@ -45,9 +47,9 @@ public class WishlistPage{
 	
 	private void initialize() {
 		bp = new BorderPane();
-		sc = new Scene(bp);
+		sc = new Scene(bp, 800, 600);
 		gp = new GridPane();
-		hb = new HBox();
+		hb = new HBox(10);
 		
 		wishlistItems = new ArrayList<>();
 		
@@ -59,6 +61,8 @@ public class WishlistPage{
 		
 		removeBtn = new Button("Remove");
 		backBtn = new Button("Back");
+		removeBtn.setPrefWidth(100);
+		backBtn.setPrefWidth(100);
 	}
 	
 	private void layouting() {
@@ -68,12 +72,16 @@ public class WishlistPage{
         categoryColumn.setCellValueFactory(new PropertyValueFactory<>("itemCategory"));
 
         tvWishlist.getColumns().addAll(nameColumn, sizeColumn, priceColumn, categoryColumn);
-
+        tvWishlist.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        GridPane.setHgrow(tvWishlist, Priority.ALWAYS); 
+	    GridPane.setVgrow(tvWishlist, Priority.ALWAYS);
+        
         hb.getChildren().addAll(removeBtn, backBtn);
-        hb.setSpacing(10);
+        hb.setPadding(new Insets(10));
 
-        bp.setTop(tvWishlist);
+        bp.setCenter(tvWishlist);
         bp.setBottom(hb);
+        bp.setPadding(new Insets(20));
 	}
 
 	private void view() {

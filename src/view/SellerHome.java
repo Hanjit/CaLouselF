@@ -3,6 +3,8 @@ package view;
 import java.util.ArrayList;
 
 import controller.ItemController;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.SelectionMode;
@@ -13,6 +15,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import model.Item;
 
 public class SellerHome {
@@ -47,9 +50,9 @@ public class SellerHome {
 	
 	private void initialize() {
 		bp = new BorderPane();
-		sc = new Scene(bp);
+		sc = new Scene(bp, 800, 600);
 		gp = new GridPane();
-		hb = new HBox();
+		hb = new HBox(10);
 		
 		items = new ArrayList<>();
 		tvSellerItems = new TableView<>();
@@ -67,15 +70,21 @@ public class SellerHome {
 		backBtn = new Button("Back");
 		editItemBtn = new Button("Edit Item");
 		deleteItemBtn = new Button("Delete Item");
+		myItemsBtn.setMinWidth(100);
+	    uploadItemBtn.setMinWidth(100);
+	    offerBtn.setMinWidth(100);
+	    backBtn.setMinWidth(100);
+	    editItemBtn.setMinWidth(100);
+	    deleteItemBtn.setMinWidth(100);
 		
 		onMyItems = false;
-		
 	}
 	
 	private void layouting() {	
 		resetButtonVisibility();
 		
-		hb.getChildren().addAll(myItemsBtn, uploadItemBtn, offerBtn, editItemBtn, deleteItemBtn, backBtn);;
+		hb.getChildren().addAll(myItemsBtn, uploadItemBtn, offerBtn, editItemBtn, deleteItemBtn, backBtn);; 
+	    hb.setPadding(new Insets(10));
 		
 		nameColumn.setCellValueFactory(new PropertyValueFactory<>("itemName"));
 		categoryColumn.setCellValueFactory(new PropertyValueFactory<>("itemCategory"));
@@ -85,9 +94,16 @@ public class SellerHome {
 		reasonColumn.setCellValueFactory(new PropertyValueFactory<>("itemReason"));
 		
 		tvSellerItems.getColumns().addAll(nameColumn, categoryColumn, sizeColumn, priceColumn, statusColumn, reasonColumn);
+		tvSellerItems.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY); 
+	    GridPane.setHgrow(tvSellerItems, Priority.ALWAYS); 
+	    GridPane.setVgrow(tvSellerItems, Priority.ALWAYS);
 		
-		bp.setTop(tvSellerItems);
+	    gp.setAlignment(Pos.CENTER);
+	    gp.add(tvSellerItems, 0, 0);
+	    
+		bp.setCenter(gp);
 		bp.setBottom(hb);
+		bp.setPadding(new Insets(20));
 	}
 	
 	private void fillTableSeller(int sellerId) {

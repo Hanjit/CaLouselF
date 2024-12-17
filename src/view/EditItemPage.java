@@ -37,7 +37,7 @@ public class EditItemPage {
 		item = ItemController.getInstance().getItemById(itemId);
 		
 		bp = new BorderPane();
-		sc = new Scene(bp, 600, 400);
+		sc = new Scene(bp, 800, 600);
 		
 		gpForm = new GridPane();
 		gpForm.setHgap(10);

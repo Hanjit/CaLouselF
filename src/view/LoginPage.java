@@ -59,7 +59,6 @@ public class LoginPage {
 	}
 	
 	private void layouting() {
-//		gpForm.add(titleLabel, 0, 0);
 		gpForm.add(usernameLabel, 0, 0);
 		gpForm.add(passwordLabel, 0, 1);
 		
@@ -72,7 +71,6 @@ public class LoginPage {
 		
 		bp.setTop(titleLabel);
 		bp.setCenter(gpForm);
-//		bp.setBottom(hbButtons);
 		BorderPane.setAlignment(titleLabel, Pos.CENTER); 
 		BorderPane.setMargin(gpForm, new Insets(0, 0, 110, 0));
 		BorderPane.setMargin(titleLabel, new Insets(110, 0, 0, 0));

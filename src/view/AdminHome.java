@@ -3,6 +3,8 @@ package view;
 import java.util.ArrayList;
 
 import controller.ItemController;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.SelectionMode;
@@ -13,6 +15,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import model.Item;
 
 public class AdminHome {
@@ -40,9 +43,9 @@ public class AdminHome {
 	
 	private void initialize() {
 		bp = new BorderPane();
-		sc = new Scene(bp);
+		sc = new Scene(bp, 800, 600);
 		gp = new GridPane();
-		hb = new HBox();
+		hb = new HBox(10);
 		
 		items = new ArrayList<>();
 		tvRequestItems = new TableView<>();
@@ -54,12 +57,15 @@ public class AdminHome {
 		
 		acceptBtn = new Button("Accept");
 		declineBtn = new Button("Decline");
+		acceptBtn.setMinWidth(100);
+	    declineBtn.setMinWidth(100);
 	}
 	
 	private void layouting() {
 		resetButtonVisibility();
 		
 		hb.getChildren().addAll(acceptBtn, declineBtn);
+		hb.setAlignment(Pos.CENTER);
 		
 		nameColumn.setCellValueFactory(new PropertyValueFactory<>("itemName"));
 		categoryColumn.setCellValueFactory(new PropertyValueFactory<>("itemCategory"));
@@ -67,9 +73,17 @@ public class AdminHome {
 		priceColumn.setCellValueFactory(new PropertyValueFactory<>("itemPrice"));
 		
 		tvRequestItems.getColumns().addAll(nameColumn, categoryColumn, sizeColumn, priceColumn);
+		tvRequestItems.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY); 
+	    GridPane.setHgrow(tvRequestItems, Priority.ALWAYS); 
+	    GridPane.setVgrow(tvRequestItems, Priority.ALWAYS);
 		
-		bp.setTop(tvRequestItems);
+		gp.add(tvRequestItems, 0, 0);
+	    gp.setAlignment(Pos.CENTER); 
+		
+		bp.setCenter(gp);
 		bp.setBottom(hb);
+		BorderPane.setMargin(hb, new Insets(10)); 
+	    bp.setPadding(new Insets(20));
 	}
 	
 	private void fillTable() {

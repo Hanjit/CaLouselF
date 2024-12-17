@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import controller.ItemController;
 import controller.TransactionController;
 import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -14,6 +16,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 import model.Item;
 import model.Transaction;
@@ -41,7 +44,7 @@ public class TransactionPage {
 		transactions = new ArrayList<>();
 		
 		bp = new BorderPane();
-		sc = new Scene(bp);
+		sc = new Scene(bp, 800, 600);
 		
 		tvTransactions = new TableView<>();
 		transactionIdClmn = new TableColumn<>("Transaction ID");
@@ -51,13 +54,15 @@ public class TransactionPage {
 		itemPriceClmn = new TableColumn<>("Item Price");
 		
 		gpForm = new GridPane();
-		hbButtons = new HBox();
+		hbButtons = new HBox(10);
 		
 		backButton = new Button("Back");
+		backButton.setPrefWidth(100);
 	}
 	
 	private void layouting() {
 		hbButtons.getChildren().add(backButton);
+		hbButtons.setPadding(new Insets(10));
 		
 		transactionIdClmn.setCellValueFactory(new PropertyValueFactory<>("transactionId"));
 		itemNameClmn.setCellValueFactory(new PropertyValueFactory<>("itemName"));
@@ -66,10 +71,16 @@ public class TransactionPage {
 		itemPriceClmn.setCellValueFactory(new PropertyValueFactory<>("itemPrice"));
 		
 		tvTransactions.getColumns().addAll(transactionIdClmn, itemNameClmn, itemCategoryClmn, itemSizeClmn, itemPriceClmn);
+		tvTransactions.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY); 
+		GridPane.setHgrow(tvTransactions, Priority.ALWAYS); 
+	    GridPane.setVgrow(tvTransactions, Priority.ALWAYS);
 		
-		bp.setTop(tvTransactions);
+	    gpForm.setAlignment(Pos.CENTER);
+	    gpForm.add(tvTransactions, 0, 0);
+	    
 		bp.setCenter(gpForm);
 		bp.setBottom(hbButtons);
+		bp.setPadding(new Insets(20));
 	}
 	
 	private void fillTable() {
