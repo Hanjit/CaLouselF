@@ -11,17 +11,16 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableSelectionModel;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import model.Item;
 import model.Offer;
 
@@ -49,10 +48,9 @@ public class SellerOffer {
 	
 	private void initialize() {
 		bp = new BorderPane();
-		sc = new Scene(bp);
+		sc = new Scene(bp, 800, 600);
 		gp = new GridPane();
 		hb = new HBox(10);
-		hb.setAlignment(Pos.CENTER);
 		
 		item = new Item();
 		offer = new Offer();
@@ -79,6 +77,7 @@ public class SellerOffer {
 	
 	private void layouting() {
 		hb.getChildren().addAll(acceptBtn, declineBtn, backBtn);
+		hb.setPadding(new Insets(10));
 		
 		nameColumn.setCellValueFactory(new PropertyValueFactory<>("itemName"));
 		categoryColumn.setCellValueFactory(new PropertyValueFactory<>("itemCategory"));
@@ -88,9 +87,16 @@ public class SellerOffer {
 		offerStatus.setCellValueFactory(new PropertyValueFactory<>("offerStatus"));
 		
 		tvRequests.getColumns().addAll(nameColumn, categoryColumn, sizeColumn, priceColumn, offerPriceColumn, offerStatus);
+		tvRequests.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+		GridPane.setHgrow(tvRequests, Priority.ALWAYS);
+	    GridPane.setVgrow(tvRequests, Priority.ALWAYS);
+	    
+	    gp.add(tvRequests, 0, 0);
+	    gp.setAlignment(Pos.CENTER);
 		
-		bp.setTop(tvRequests);
+		bp.setCenter(gp);
 		bp.setBottom(hb);
+		bp.setPadding(new Insets(20));
 	}
 	
 	private void fillTable() {
