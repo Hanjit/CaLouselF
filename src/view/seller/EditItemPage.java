@@ -1,4 +1,4 @@
-package view;
+package view.seller;
 
 import controller.ItemController;
 import javafx.geometry.Insets;
@@ -17,6 +17,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import model.Item;
+import view.Main;
 
 public class EditItemPage {
 	Scene sc;
@@ -33,6 +34,7 @@ public class EditItemPage {
 	int itemId;
 	Item item;
 	
+	// Initializes UI components and sets up their basic properties
 	private void initialize() {		
 		item = ItemController.getInstance().getItemById(itemId);
 		
@@ -48,7 +50,7 @@ public class EditItemPage {
 	    hbButtons = new HBox(10);
 		hbButtons.setAlignment(Pos.CENTER);
 		
-		titleLabel = new Label("Upload a New Item");
+		titleLabel = new Label("Edit Item");
 		titleLabel.setFont(Font.font("Arial", FontWeight.BOLD, 24)); 
 		titleLabel.setTextAlignment(TextAlignment.CENTER); 
 		
@@ -75,6 +77,7 @@ public class EditItemPage {
 		
 	}
 	
+	// Configures the layout and positions the UI components in the scene
 	private void layouting() {
 		gpForm.add(nameLabel, 0, 0);
 		gpForm.add(categoryLabel, 0, 1);
@@ -97,6 +100,7 @@ public class EditItemPage {
 		BorderPane.setMargin(titleLabel, new Insets(80, 0, 0, 0));
 	}
 	
+	// Handles the logic for editing an item.
 	private boolean edit() {
 		String name = nameField.getText().toString();
 		String category = categoryField.getText().toString();
@@ -106,7 +110,9 @@ public class EditItemPage {
 		return ItemController.getInstance().updateItem(itemId, name, size, price, category);
 	}
 	
+	//	Adds event listeners to the UI components to handle user interactions
 	private void addEvent() {
+		// Event for clicking the "Confirm" button
 		confirmBtn.setOnMouseClicked(e -> {
 			if (edit()) {
 				alert.setContentText("Edit Successful!");
@@ -117,6 +123,7 @@ public class EditItemPage {
 			}
 		});
 		
+		// Event for clicking the "Cancel" button
 		cancelButton.setOnMouseClicked(e -> {
 			SellerHome sellerPage = new SellerHome();
 			Scene sellerScene = sellerPage.getScene();
@@ -124,6 +131,7 @@ public class EditItemPage {
 		});
 	}
 	
+	// Constructor for Seller Edit Item Page (call all the functions)
 	public EditItemPage(int itemId) {
 		this.itemId = itemId;
 		initialize();
@@ -131,6 +139,7 @@ public class EditItemPage {
 		addEvent();
 	}
 	
+	//	Returns the scene for this EditItemPage
 	public Scene getScene() {
 		return sc;
 	}

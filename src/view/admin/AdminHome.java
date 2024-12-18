@@ -1,4 +1,4 @@
-package view;
+package view.admin;
 
 import java.util.ArrayList;
 
@@ -36,11 +36,13 @@ public class AdminHome {
 	
 	Button acceptBtn, declineBtn;
 	
+	// Resets the visibility of buttons to their default state
 	private void resetButtonVisibility() {
 		acceptBtn.setVisible(false);
 		declineBtn.setVisible(false);
 	}
 	
+	// Initializes UI components and sets up their basic properties
 	private void initialize() {
 		bp = new BorderPane();
 		sc = new Scene(bp, 800, 600);
@@ -61,6 +63,7 @@ public class AdminHome {
 	    declineBtn.setMinWidth(100);
 	}
 	
+	// Configures the layout and positions the UI components in the scene
 	private void layouting() {
 		resetButtonVisibility();
 		
@@ -86,15 +89,19 @@ public class AdminHome {
 	    bp.setPadding(new Insets(20));
 	}
 	
+	// Fills the TableView with data fetched from the ItemController
 	private void fillTable() {
 		items = ItemController.getInstance().getRequestedItem();
 		tvRequestItems.getItems().clear();
 		tvRequestItems.getItems().addAll(items);
 	}
 	
-	int tempId;
+	// Temporary variable to store the selected item's ID
+	int tempId; 
 	
+	//	Adds event listeners to the UI components to handle user interactions
 	private void addEvent() {
+		// Event for selecting an item in the TableView
 		tvRequestItems.setOnMouseClicked(e -> {
 			TableSelectionModel<Item> modelSelection = tvRequestItems.getSelectionModel();
 			modelSelection.setSelectionMode(SelectionMode.SINGLE);
@@ -104,12 +111,14 @@ public class AdminHome {
 			declineBtn.setVisible(true);
 		});
 		
+		// Event for clicking the "Accept" button
 		acceptBtn.setOnMouseClicked(e -> {
 			ItemController.getInstance().approveItem(tempId);
 			fillTable();
 			tempId = -1;
 		});
 		
+		// Event for clicking the "Decline" button
 		declineBtn.setOnMouseClicked(e -> {
 			ItemController.getInstance().declineItem(tempId);
 			fillTable();
@@ -117,6 +126,7 @@ public class AdminHome {
 		});
 	}
 	
+	// Constructor for Admin Home Page (call all the functions)
 	public AdminHome() {
 		initialize();
 		layouting();
@@ -124,8 +134,8 @@ public class AdminHome {
 		addEvent();
 	}
 	
+	//	Returns the scene for this AdminHome
 	public Scene getScene() {
 		return sc;
 	}
-	
 }

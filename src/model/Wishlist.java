@@ -15,12 +15,14 @@ public class Wishlist {
 		
 	public Wishlist() {}
 	
+	// Constructor for creating a Wishlist with itemId and userId
 	public Wishlist(int itemId, int userId) {
 		super();
 		this.itemId = itemId;
 		this.userId = userId;
 	}
-
+	
+	// Constructor for creating a Wishlist with wishlistId, itemId, and userId
 	public Wishlist(int wishlistId, int itemId, int userId) {
 		super();
 		this.wishlistId = wishlistId;
@@ -28,6 +30,7 @@ public class Wishlist {
 		this.userId = userId;
 	}
 	
+	// Constructor for creating a Wishlist with full details: itemId, userId, wishlistId, itemName, itemSize, itemPrice, and itemCategory
 	public Wishlist(int userId, int itemId, int wishlistId, String itemName, String itemSize, String itemPrice, String itemCategory) {
 		this.userId = userId;
 		this.itemId = itemId;
@@ -38,7 +41,7 @@ public class Wishlist {
 		this.itemCategory = itemCategory;
 	}
 	
-    // Method yang digunakan untuk menambahkan wishlist
+	// Method to add an item to the wishlist
 	public boolean addWishlist(int itemId, int userId) {
 		String query = "INSERT INTO `mswishlist`(`Item_id`, `User_id`) VALUES (?, ?)";
 		PreparedStatement ps = Database.getInstance().prepareStatement(query);
@@ -53,7 +56,7 @@ public class Wishlist {
 		return false;
 	}
 	
-	// Method yang digunakan untuk menghapus wishlist baik dihapus sendiri maupun sudah di checkout
+	// Method to delete a single wishlist entry by wishlistId
 	public boolean deleteWishlist(int wishlistId) {
 		
 		String query = "DELETE FROM `mswishlist` WHERE `Wishlist_id` = ?";
@@ -69,7 +72,7 @@ public class Wishlist {
 		return false;
 	}
 	
-	// Method yang digunakan untuk menghapus wishlist dari seluruh user setelah ada purchase
+	// Method to delete all wishlist entries for an item after a purchase or other events
 	public boolean deleteAllWishlist(int itemId) {
 		
 		String query = "DELETE FROM `mswishlist` WHERE `Item_id` = ?";
@@ -85,9 +88,7 @@ public class Wishlist {
 		return false;
 	}
 	
-	
-	
-	// Method yang digunakan untuk menampilkan item apa saja yang di masuk kedalam wishlist
+	// Method to view all items in the user's wishlist
 	public ArrayList<Wishlist> viewWishlist(int userId) {
 		String query = String.format("SELECT mswishlist.Wishlist_id, msitem.Item_id, msitem.Item_name, msitem.Item_size, msitem.Item_price, msitem.Item_category FROM `mswishlist` JOIN msitem ON mswishlist.Item_id = msitem.Item_id WHERE mswishlist.User_id = %d" , userId);
 		ArrayList<Wishlist> wishlist = new ArrayList<>();
@@ -109,6 +110,7 @@ public class Wishlist {
 		return wishlist;
 	}
 	
+	// Setter-Getter methods for the wishlist class fields
 	public int getWishlistId() {
 		return wishlistId;
 	}
@@ -159,6 +161,4 @@ public class Wishlist {
 	public void setItemCategory(String itemCategory) {
 		this.itemCategory = itemCategory;
 	}
-	
-	
 }

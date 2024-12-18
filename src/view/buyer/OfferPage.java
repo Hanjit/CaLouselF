@@ -1,4 +1,4 @@
-package view;
+package view.buyer;
 
 import controller.ItemController;
 import controller.OfferController;
@@ -15,6 +15,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import model.Item;
+import view.Main;
 
 public class OfferPage {
 	private Item item;;
@@ -30,6 +31,7 @@ public class OfferPage {
 	Button offerButton, backButton;
 	Alert alert;
 	
+	// Initializes UI components and sets up their basic properties
 	private void initialize() {
 		bp = new BorderPane();
 		sc = new Scene(bp, 600, 400);
@@ -56,6 +58,7 @@ public class OfferPage {
 		alert = new Alert(AlertType.NONE, "", ButtonType.OK);
 	}
 	
+	// Configures the layout and positions the UI components in the scene
 	private void layouting() {
 		gpForm.add(priceLabel, 0, 0);
 		
@@ -69,6 +72,7 @@ public class OfferPage {
 		BorderPane.setMargin(gpForm, new Insets(100, 0, 100, 0));
 	}
 	
+	// Processes the offer submission by validating the input and calling the OfferController
 	private boolean makeOffer() {
 		String input = priceField.getText().toString().trim();
 		int offerPrice;
@@ -82,7 +86,9 @@ public class OfferPage {
 				item.getSellerId(), offerPrice, OfferController.getInstance().getHighestOffer(item.getItemId()));
 	}
 	
+	// Adds event listeners to the UI components to handle user interactions
 	private void setAction() {
+		// Event for clicking the "Make Offer" button
 		offerButton.setOnMouseClicked(e -> {
 			if (makeOffer()) {
 				alert.setContentText("Offer Submitted!");
@@ -93,6 +99,7 @@ public class OfferPage {
 			}
 		});
 		
+		// Event for clicking the "Back" button
 		backButton.setOnMouseClicked(e -> {
 			HomePage homePage = new HomePage();
 			Scene homeScene = homePage.getScene();
@@ -100,6 +107,7 @@ public class OfferPage {
 		});
 	}
 	
+	// Constructor for Buyer Offer Page (call all the functions)
 	public OfferPage(int itemId, int sellerId) {
 		item = ItemController.getInstance().getItemById(itemId);
 		System.out.println(item.getSellerId());
@@ -108,6 +116,7 @@ public class OfferPage {
 		setAction();
 	}
 	
+	//	Returns the scene for this OfferPage
 	public Scene getScene() {
 		return sc;
 	}

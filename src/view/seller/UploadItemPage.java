@@ -1,4 +1,4 @@
-package view;
+package view.seller;
 
 import controller.ItemController;
 import javafx.geometry.Insets;
@@ -17,6 +17,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import model.User;
+import view.Main;
 
 public class UploadItemPage {
 	Scene sc;
@@ -32,6 +33,7 @@ public class UploadItemPage {
 	Alert alert;
 	User user;
 	
+	// Initializes UI components and sets up their basic properties
 	private void initialize() {
 		bp = new BorderPane();
 		sc = new Scene(bp, 600, 400);
@@ -72,6 +74,7 @@ public class UploadItemPage {
 		user = Main.getUser();
 	}
 	
+	// Configures the layout and positions the UI components in the scene
 	private void layouting() {
 		gpForm.add(nameLabel, 0, 0);
 		gpForm.add(categoryLabel, 0, 1);
@@ -94,6 +97,7 @@ public class UploadItemPage {
 		BorderPane.setMargin(titleLabel, new Insets(80, 0, 0, 0));
 	}
 	
+	// Uploads the item to the database using the ItemController
 	private boolean upload() {
 		String name = nameField.getText().toString();
 		String category = categoryField.getText().toString();
@@ -103,7 +107,9 @@ public class UploadItemPage {
 		return ItemController.getInstance().createItem(name, size, price, category, "-", "NULL", user.getUserId());
 	}
 	
+	//	Adds event listeners to the UI components to handle user interactions
 	private void addEvent() {
+		// Event for clicking the "Submit" button
 		submitBtn.setOnMouseClicked(e -> {
 			if (upload()) {
 				alert.setContentText("Upload Successful!");
@@ -114,6 +120,7 @@ public class UploadItemPage {
 			} 
 		});
 		
+		// Event for clicking the "Back" button
 		backButton.setOnMouseClicked(e -> {
 			SellerHome sellerPage = new SellerHome();
 			Scene sellerScene = sellerPage.getScene();
@@ -121,14 +128,15 @@ public class UploadItemPage {
 		});
 	}
 	
+	// Constructor for Seller Upload Item Page (call all the functions)
 	public UploadItemPage() {
 		initialize();
 		layouting();
 		addEvent();
 	}
 	
+	//	Returns the scene for this UploadItemPage
 	public Scene getScene() {
 		return sc;
-	}
-	
+	}	
 }

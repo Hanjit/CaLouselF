@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+// Connect to database
 public class Database {
 
     private String host = "localhost";
@@ -58,6 +59,5 @@ public class Database {
 		}
     	
     	return ps;
-    }
-    
+    }   
 }
