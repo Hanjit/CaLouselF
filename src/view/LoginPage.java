@@ -14,6 +14,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import model.User;
+import view.admin.AdminHome;
+import view.buyer.HomePage;
+import view.seller.SellerHome;
 
 public class LoginPage {
 	
@@ -27,6 +30,7 @@ public class LoginPage {
 	
 	Button loginButton, registerButton;
 	
+	// Initializes UI components and sets up their basic properties
 	private void intialize() {
 		bp = new BorderPane();
 		sc = new Scene(bp, 600, 400);
@@ -58,6 +62,7 @@ public class LoginPage {
 		registerButton.setPrefWidth(100);
 	}
 	
+	// Configures the layout and positions the UI components in the scene
 	private void layouting() {
 		gpForm.add(usernameLabel, 0, 0);
 		gpForm.add(passwordLabel, 0, 1);
@@ -76,6 +81,7 @@ public class LoginPage {
 		BorderPane.setMargin(titleLabel, new Insets(110, 0, 0, 0));
 	}
 	
+	// Handles the login process by validating the input and checking the credentials
 	private User login() {
 		String username = usernameField.getText().toString();
 		String password = passwordField.getText().toString();
@@ -83,7 +89,9 @@ public class LoginPage {
 		return UserController.getInstance().login(username, password);
 	}
 	
+//	Adds event listeners to the UI components to handle user interactions
 	private void setAction() {
+		// Event for clicking the "Login" button
 		loginButton.setOnMouseClicked(e -> {
 			Main.setUser(login());
 			if (Main.getUser() == null) {
@@ -106,6 +114,7 @@ public class LoginPage {
 			}
 		});
 		
+		// Event for clicking the "Register" button
 		registerButton.setOnMouseClicked(e -> {
 			RegisterPage registerPage = new RegisterPage();
 			Scene regisScene = registerPage.getScene();
@@ -113,12 +122,14 @@ public class LoginPage {
 		});
 	}
 	
+	// Constructor for Login Page (call all the functions)
 	public LoginPage() {
 		intialize();
 		layouting();
 		setAction();
 	}
 	
+	//	Returns the scene for this LoginPage
 	public Scene getScene() {
 		return sc;
 	}

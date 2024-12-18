@@ -1,4 +1,4 @@
-package view;
+package view.buyer;
 
 import java.util.ArrayList;
 
@@ -17,6 +17,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import model.Wishlist;
+import view.Main;
 
 public class WishlistPage{
 
@@ -38,11 +39,13 @@ public class WishlistPage{
 	
 	Button removeBtn, backBtn;
 	
+	// Resets the visibility of buttons to their default state
 	private void resetButtonVisibility() {
 		backBtn.setVisible(true);
 		removeBtn.setVisible(false);
 	}
 	
+	// Initializes UI components and sets up their basic properties
 	private void initialize() {
 		bp = new BorderPane();
 		sc = new Scene(bp, 800, 600);
@@ -63,6 +66,7 @@ public class WishlistPage{
 		backBtn.setPrefWidth(100);
 	}
 	
+	// Configures the layout and positions the UI components in the scene
 	private void layouting() {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("itemName"));
         sizeColumn.setCellValueFactory(new PropertyValueFactory<>("itemSize"));
@@ -81,7 +85,8 @@ public class WishlistPage{
         bp.setBottom(hb);
         bp.setPadding(new Insets(20));
 	}
-
+	
+	//	Populates the TableView with wishlist items fetched from the controller
 	private void view() {
 		int userId = Main.getUser().getUserId(); 
         wishlistItems = WishlistController.getInstance().viewWishlist(userId);
@@ -90,14 +95,17 @@ public class WishlistPage{
         tvWishlist.getItems().addAll(wishlistItems);
 	}
 	
+	// Deletes the selected wishlist item using the WishlistController.
 	private void delete() {
 		 Wishlist selectedItem = tvWishlist.getSelectionModel().getSelectedItem();
 	        if (selectedItem != null) {
 	            WishlistController.getInstance().deleteWishlist(selectedItem.getWishlistId());
 	        }
 	}
-
+	
+	//	Adds event listeners to the UI components to handle user interactions
     private void setAction() {
+    	// Event for clicking the "Remove" button
     	removeBtn.setOnMouseClicked(new EventHandler<Event>() {
 
 			@Override
@@ -107,6 +115,7 @@ public class WishlistPage{
 			}
 		});
     	
+    	// Event for clicking the "Back" button
     	backBtn.setOnMouseClicked(new EventHandler<Event>() {
 
 			@Override
@@ -119,6 +128,7 @@ public class WishlistPage{
 		});
     }
     
+    // Constructor for Buyer Wishlist Page (call all the functions)
     public WishlistPage() {
     	initialize();
 		layouting();
@@ -126,8 +136,8 @@ public class WishlistPage{
 		setAction();
     }
 	
+    //	Returns the scene for this WishlistPage
 	public Scene getScene() {
 		return sc;
 	}
-	
 }

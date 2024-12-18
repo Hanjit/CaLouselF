@@ -1,4 +1,4 @@
-package view;
+package view.seller;
 
 import java.util.ArrayList;
 
@@ -17,6 +17,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import model.Item;
+import view.Main;
 
 public class SellerHome {
 	Scene sc;
@@ -39,6 +40,7 @@ public class SellerHome {
 	
 	Button myItemsBtn, uploadItemBtn, backBtn, editItemBtn, deleteItemBtn, offerBtn;
 	
+	// Resets the visibility of buttons to their default state
 	private void resetButtonVisibility() {
 		myItemsBtn.setVisible(true);
 		uploadItemBtn.setVisible(true);
@@ -48,6 +50,7 @@ public class SellerHome {
 		deleteItemBtn.setVisible(false);
 	}
 	
+	// Initializes UI components and sets up their basic properties
 	private void initialize() {
 		bp = new BorderPane();
 		sc = new Scene(bp, 800, 600);
@@ -80,6 +83,7 @@ public class SellerHome {
 		onMyItems = false;
 	}
 	
+	// Configures the layout and positions the UI components in the scene
 	private void layouting() {	
 		resetButtonVisibility();
 		
@@ -106,21 +110,26 @@ public class SellerHome {
 		bp.setPadding(new Insets(20));
 	}
 	
+	// Fills the TableView with items belonging to the current seller.
 	private void fillTableSeller(int sellerId) {
 		items = ItemController.getInstance().getAllItems(sellerId);
 		tvSellerItems.getItems().clear();
 		tvSellerItems.getItems().addAll(items);
 	}
 	
+	// Fills the TableView with all items.
 	private void fillTable() {
 		items = ItemController.getInstance().getItems();
 		tvSellerItems.getItems().clear();
 		tvSellerItems.getItems().addAll(items);
 	}
 	
+	// Temporary variable to store the selected item's ID
 	int tempId;
 	
+	//	Adds event listeners to the UI components to handle user interactions
 	private void addEvent() {
+		// Event for selecting an items owned by the seller in the TableView
 		myItemsBtn.setOnMouseClicked(e -> {
 			fillTableSeller(Main.getUser().getUserId());
 			onMyItems = true;
@@ -130,12 +139,12 @@ public class SellerHome {
 			backBtn.setVisible(true);
 		});
 		
+		// Event for handle table row selection
 		tvSellerItems.setOnMouseClicked(v -> {
 			TableSelectionModel<Item> modelSelection = tvSellerItems.getSelectionModel();
 			modelSelection.setSelectionMode(SelectionMode.SINGLE);
 			Item item = modelSelection.getSelectedItem();
 			tempId = item.getItemId();
-			
 			
 			if (onMyItems) {
 				editItemBtn.setVisible(true);
@@ -147,30 +156,35 @@ public class SellerHome {
 			}
 		});
 		
+		// Event for clicking the "Back" button
 		backBtn.setOnMouseClicked(e -> {
 			fillTable();
 			resetButtonVisibility();
 			onMyItems = false;
 		});
 		
+		// Event for clicking the "Delete Item" button
 		deleteItemBtn.setOnMouseClicked(e -> {
 			ItemController.getInstance().deleteItem(tempId);
 			fillTableSeller(Main.getUser().getUserId());
 			tempId = -1;
 		});
 		
+		// Event for clicking the "Edit Item" button
 		editItemBtn.setOnMouseClicked(e -> {
 			EditItemPage editPage = new EditItemPage(tempId);
 			Scene editScene = editPage.getScene();
 			Main.switchScene(editScene);
 		});
 		
+		// Event for clicking the "Upload Item" button
 		uploadItemBtn.setOnMouseClicked(e -> {
 			UploadItemPage uploadPage = new UploadItemPage();
 			Scene uploadScene = uploadPage.getScene();
 			Main.switchScene(uploadScene);
 		});
 		
+		// Event for clicking the "View Offers" button
 		offerBtn.setOnMouseClicked(e -> {
 			SellerOffer sellerOffer = new SellerOffer();
 			Scene offerScene = sellerOffer.getScene();
@@ -178,6 +192,7 @@ public class SellerHome {
 		});
 	}
 	
+	// Constructor for Seller Home Page (call all the functions)
 	public SellerHome() {
 		initialize();
 		layouting();
@@ -185,12 +200,8 @@ public class SellerHome {
 		addEvent();
 	}
 	
+	//	Returns the scene for this SellerHome
 	public Scene getScene() {
 		return sc;
 	}
-	
-	
-	
-	
-	
 }

@@ -17,13 +17,14 @@ public class OfferController {
 	public OfferController() {
 		offerModel = new Offer();
 	}
-	
+	// Displays an error alert with the provided message
 	private void errorAlert(String message) {
 		alert.setAlertType(AlertType.ERROR);
 		alert.setContentText(message);
 		alert.show();
 	}
 	
+	// Retrieves the singleton instance of OfferController
 	public static OfferController getInstance() {
 		if (oc == null) {
 			oc = new OfferController();
@@ -32,6 +33,7 @@ public class OfferController {
 		return oc;
 	}
 	
+	// Creates an offer after validating the input
 	public boolean createOffer(int userId, int itemId, int sellerId, int offerPrice, int highestOffer) {
 		
 		if (offerPrice == 0 ) {
@@ -45,31 +47,31 @@ public class OfferController {
 		return offerModel.createOffer(userId, itemId, sellerId, offerPrice);
 	}
 	
+	// Retrieves all offers for a specific seller
 	public ArrayList<Offer> getOffer(int sellerId) {
 		
 		return offerModel.getOffer(sellerId);
 	}
 	
+	// Retrieves the highest offer for a specific item
 	public int getHighestOffer(int itemId) {
 		
 		return offerModel.getHighestOffer(itemId);
 	}
 	
-	public ArrayList<Offer> getDeclinedOffer(int userId) {
-		
-		return offerModel.getDeclinedOffer(userId);
-	}
-	
+	// Deletes an offer by its ID
 	public boolean deleteOffer(int offerId) {
 		
 		return offerModel.deleteOffer(offerId);
 	}
 	
+	// Accepts an offer by its ID
 	public boolean acceptOffer(int offerId) {
 		
 		return offerModel.acceptOffer(offerId);
 	}
 	
+	// Declines an offer by its ID, with a reason
 	public boolean declineOffer(int offerId) {
 		
 		TextInputDialog dialog = new TextInputDialog();
@@ -84,7 +86,10 @@ public class OfferController {
 			errorAlert("Reason cannot be empty");
 		}
 		
+		if (offerModel.declineOffer(offerId, offerReason)) {
+			return offerModel.deleteOffer(offerId);
+		}
 		
-		return offerModel.declineOffer(offerId, offerReason);
+		return false;
 	}
 }

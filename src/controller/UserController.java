@@ -14,6 +14,7 @@ public class UserController {
 		userModel = new User();
 	}
 	
+	// Retrieves the singleton instance of UserController
 	public static UserController getInstance() {
 		if (uc == null) {
 			uc = new UserController();
@@ -22,12 +23,14 @@ public class UserController {
 		return uc;
 	}
 	
+	// Displays an error alert with the provided message
 	private void errorAlert(String message) {
 		alert.setAlertType(AlertType.ERROR);
 		alert.setContentText(message);
 		alert.showAndWait();
 	}
 	
+	// Handles the login functionality by validating the user credentials
 	public User login(String username, String password) {
 		User user = userModel.login(username, password);
 		
@@ -43,10 +46,12 @@ public class UserController {
 		return user;
 	}
 	
+	// Retrieves the role of the user for further validation or authorization
 	public String validate(User user) {
 		return user.getRole();
 	}
 	
+	// Handles the user registration process by validating all input fields
 	public boolean register(String username, String password, String phoneNumber, String address, String role) {
 		// validate username
 		if (username.isEmpty()) {
@@ -99,6 +104,7 @@ public class UserController {
 		return userModel.register(username, password, phoneNumber, address, role);
 	}
 	
+	// Checks if the username already exists
 	private boolean checkUsername(String username) {
 		return userModel.getUserByUsername(username);
 	}

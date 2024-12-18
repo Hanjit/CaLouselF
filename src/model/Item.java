@@ -21,11 +21,13 @@ public class Item {
 	
 	public Item() {}
 	
+	// Constructor with itemId and itemReason
 	public Item(int itemId, String itemReason) {
 		this.itemId = itemId;
 		this.itemReason = itemReason;
 	}
 	
+	// Constructor for item details excluding itemStatus and itemWishlist
 	public Item(int itemId, String itemName, String itemSize, String itemPrice, String itemCategory) {
 		super();
 		this.itemId = itemId;
@@ -35,6 +37,7 @@ public class Item {
 		this.itemCategory = itemCategory;
 	}
 	
+	// Constructor with full item details
 	public Item(int itemId, String itemName, String itemSize, String itemPrice, String itemCategory, String itemStatus, String itemReason) {
 		super();
 		this.itemId = itemId;
@@ -45,7 +48,8 @@ public class Item {
 		this.itemStatus = itemStatus;
 		this.itemReason = itemReason;
 	}
-
+	
+	// Constructor for item details with wishlist and offer status
 	public Item(int itemId, String itemName, String itemSize, String itemPrice, String itemCategory,
 			String itemStatus, String itemWishlist, String itemOfferStatus) {
 		super();
@@ -59,6 +63,7 @@ public class Item {
 		this.itemOfferStatus = itemOfferStatus;
 	}
 	
+	// Method to create a new item in the database
 	public boolean createItem(String itemName, String itemSize, String itemPrice, String itemCategory, String itemWishlist, String itemOfferStatus, int sellerId) {
 		
 		String query = "INSERT INTO `MsItem` (`Item_name`, `Item_size`, `Item_price`, `Item_category`, `Item_status`, `Item_wishlist`, `Item_offer_status`, `Seller_id`) "
@@ -82,7 +87,7 @@ public class Item {
 		return false;
 	}
 	
-	// for seller
+	// Get all items for a specific seller
 	public ArrayList<Item> getAllItems(int sellerId) {
 		ArrayList<Item> items = new ArrayList<>();
 		String query = String.format("SELECT * FROM `MsItem` WHERE `Seller_id` = %d", sellerId);
@@ -105,7 +110,7 @@ public class Item {
 		return items;
 	}
 	
-	// for buyer
+	// Get items that are approved for the buyer
 	public ArrayList<Item> getItems() {
 		ArrayList<Item> items = new ArrayList<>();
 		String query = "SELECT * FROM `MsItem` WHERE item_status LIKE 'Approved'";
@@ -127,6 +132,7 @@ public class Item {
 	}
 	
 	// For admin
+	// Get items with 'Pending' status for the admin to approve/reject
 	public ArrayList<Item> getRequestedItems() {
 		ArrayList<Item> items = new ArrayList<>();
 		String query = "SELECT * FROM `MsItem` WHERE `Item_status` LIKE 'Pending'";
@@ -148,7 +154,7 @@ public class Item {
 		return items;
 	}
 	
-	// for seller declined items alert
+	// Get items that were declined for a seller
 	public ArrayList<Item> getDeclinedItems(int sellerId) {
 		ArrayList<Item> items = new ArrayList<>();
 		String query = String.format("SELECT * FROM `MsItem` WHERE `Seller_id` = %d AND `Item_status` LIKE 'Declined'", sellerId);
@@ -167,6 +173,7 @@ public class Item {
 		return items;
 	}
 	
+	// Get item details by itemId
 	public Item getItemById(int itemId) {
 		Item item = new Item();
 		String query = String.format("SELECT * "
@@ -196,6 +203,7 @@ public class Item {
 		return item;
 	}
 	
+	// Update an existing item's details
 	public boolean updateItem(int itemId, String itemName, String itemSize, String itemPrice, 
 			String itemCategory) {
 		
@@ -218,6 +226,7 @@ public class Item {
 		return false;
 	}
 	
+	// Delete an item by itemId
 	public boolean deleteItem(int itemId) {
 		
 		String query = "DELETE FROM `msitem` WHERE `item_id` = ?";
@@ -233,6 +242,7 @@ public class Item {
 		return false;
 	}
 	
+	// Approve an item for listing
 	public boolean approveItem(int itemId) {
 		String query = "UPDATE `MsItem`"
 				+ "SET `Item_status` = 'Approved'"
@@ -249,6 +259,7 @@ public class Item {
 		return false;
 	}
 	
+	// Decline an item with a reason
 	public boolean declineItem(int itemId, String itemReason) {
 		String query = "UPDATE `MsItem`"
 				+ "SET `Item_status` = 'Declined', `Item_reason` = ?"
@@ -266,6 +277,7 @@ public class Item {
 		return false;
 	}
 	
+	// Setter-Getter methods for the Item class fields
 	public int getItemId() {
 		return itemId;
 	}
@@ -330,5 +342,4 @@ public class Item {
 	public void setSellerId(int sellerId) {
 		this.sellerId = sellerId;
 	}
-	
 }

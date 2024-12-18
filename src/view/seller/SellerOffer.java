@@ -1,4 +1,4 @@
-package view;
+package view.seller;
 
 import java.util.ArrayList;
 
@@ -23,6 +23,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import model.Item;
 import model.Offer;
+import view.Main;
 
 public class SellerOffer {
 	private Item item;
@@ -46,6 +47,7 @@ public class SellerOffer {
 	Button acceptBtn, declineBtn, backBtn;
 	Alert alert;
 	
+	// Initializes UI components and sets up their basic properties
 	private void initialize() {
 		bp = new BorderPane();
 		sc = new Scene(bp, 800, 600);
@@ -75,6 +77,7 @@ public class SellerOffer {
 		alert = new Alert(AlertType.NONE, "", ButtonType.OK);
 	}
 	
+	// Configures the layout and positions the UI components in the scene
 	private void layouting() {
 		hb.getChildren().addAll(acceptBtn, declineBtn, backBtn);
 		hb.setPadding(new Insets(10));
@@ -99,15 +102,19 @@ public class SellerOffer {
 		bp.setPadding(new Insets(20));
 	}
 	
+	// Fills the TableView with data fetched from the OfferController
 	private void fillTable() {
 		offers = OfferController.getInstance().getOffer(Main.getUser().getUserId());
 		tvRequests.getItems().clear();
 		tvRequests.getItems().addAll(offers);
 	}
 	
+	// Temporary variable to store the selected item's ID
 	int tempId;
 	
+	//	Adds event listeners to the UI components to handle user interactions
 	private void setAction() {
+		// Event for selecting items offer request in the TableView
 		tvRequests.setOnMouseClicked(v -> {
 			TableSelectionModel<Offer> modelSelection = tvRequests.getSelectionModel();
 			modelSelection.setSelectionMode(SelectionMode.SINGLE);
@@ -116,6 +123,7 @@ public class SellerOffer {
 			item = ItemController.getInstance().getItemById(tempId);
 		});
 		
+		// Event for clicking the "Accept" button
 		acceptBtn.setOnMouseClicked(e -> {
 			OfferController.getInstance().acceptOffer(tempId);
 			TransactionController.getInstance().createTransaction(offer.getUserId(), tempId);
@@ -123,6 +131,7 @@ public class SellerOffer {
 			tempId = -1;
 		});
 		
+		// Event for clicking the "Decline" button
 		declineBtn.setOnMouseClicked(e -> {
 			System.out.println(tempId);
 			OfferController.getInstance().declineOffer(tempId);
@@ -130,6 +139,7 @@ public class SellerOffer {
 			tempId = -1;
 		});
 		
+		// Event for clicking the "Back" button
 		backBtn.setOnMouseClicked(e -> {
 			fillTable();
 			SellerHome sellerPage = new SellerHome();
@@ -138,6 +148,7 @@ public class SellerOffer {
 		});
 	}
 	
+	// Constructor for Seller Offer Page (call all the functions)
 	public SellerOffer() {
 		initialize();
 		layouting();
@@ -145,6 +156,7 @@ public class SellerOffer {
 		fillTable();
 	}
 	
+	//	Returns the scene for this SellerOffer
 	public Scene getScene() {
 		return sc;
 	}

@@ -1,4 +1,4 @@
-package view;
+package view.buyer;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -24,6 +24,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import model.Item;
+import view.Main;
 
 public class HomePage {
 	
@@ -47,6 +48,7 @@ public class HomePage {
 	
 	Alert alert;
 	
+	// Resets the visibility of buttons to their default state
 	private void resetButtonVisibility() {
 		historyBtn.setVisible(true);
 		viewWishlistBtn.setVisible(true);
@@ -56,6 +58,7 @@ public class HomePage {
 		cancelBtn.setVisible(false);
 	}
 	
+	// Initializes UI components and sets their default properties
 	private void initialize() {
 		bp = new BorderPane();
 		sc = new Scene(bp, 800, 600);
@@ -86,6 +89,7 @@ public class HomePage {
 		alert = new Alert(AlertType.CONFIRMATION);
 	}
 	
+	// Configures the layout and positions the components on the scene
 	private void layouting() {
 		resetButtonVisibility();
 		hb.getChildren().addAll(historyBtn, viewWishlistBtn, purchaseBtn, offerBtn, wishlistBtn, cancelBtn);
@@ -109,15 +113,19 @@ public class HomePage {
 		bp.setPadding(new Insets(20));
 	}
 	
+	// Fills the TableView with data fetched from the `ItemController`
 	private void fillTable() {
 		items = ItemController.getInstance().getItems();
 		tvItems.getItems().clear();
 		tvItems.getItems().addAll(items);
 	}
 	
+	// Temporary variable to store the ID of the currently selected item
 	int tempId;
 	
+	///	Adds event listeners to the UI components to handle user interactions
 	private void addEvent() {
+		// Event for selecting an item in the TableView
 		tvItems.setOnMouseClicked(e -> {
 			TableSelectionModel<Item> modelSelection = tvItems.getSelectionModel();
 			modelSelection.setSelectionMode(SelectionMode.SINGLE);
@@ -130,6 +138,7 @@ public class HomePage {
 			historyBtn.setVisible(false);
 		});
 		
+		// Event for clicking the "Purchase" button
 		purchaseBtn.setOnMouseClicked(e -> {
 			alert.setContentText("Confirm Purchase?");
 			Optional<ButtonType> result = alert.showAndWait();
@@ -145,17 +154,20 @@ public class HomePage {
 			}
 		});
 		
+		// Event for clicking the "View Wishlist" button
 		viewWishlistBtn.setOnMouseClicked(e -> {
 			WishlistPage wishlistPage = new WishlistPage();
 			Scene wishlistScene = wishlistPage.getScene();
 			Main.switchScene(wishlistScene);
 		});
 		
+		// Event for clicking the "Cancel" button
 		cancelBtn.setOnMouseClicked(e -> {
 			resetButtonVisibility();
 			tempId = -1;
 		});
 		
+		// Event for clicking the "Add to Wishlist" button
 		wishlistBtn.setOnMouseClicked(e -> {
 			resetButtonVisibility();
 			// Insert wishlist
@@ -164,6 +176,7 @@ public class HomePage {
 			tempId = -1;
 		});
 		
+		// Event for clicking the "Make Offer" button
 		offerBtn.setOnMouseClicked(e -> {
 			resetButtonVisibility();
 			OfferPage offerPage = new OfferPage(tempId, Main.getUser().getUserId());
@@ -172,6 +185,7 @@ public class HomePage {
 			tempId = -1;
 		});
 		
+		// Event for clicking the "Purchase History" button
 		historyBtn.setOnMouseClicked(e -> {
 			resetButtonVisibility();			
 			TransactionPage transactionPage = new TransactionPage();
@@ -180,6 +194,7 @@ public class HomePage {
 		});
 	}
 	
+	// Constructor for Buyer Home Page (call all the functions)
 	public HomePage() {
 		initialize();
 		layouting();
@@ -187,6 +202,7 @@ public class HomePage {
 		addEvent();
 	}
 	
+	//	Returns the scene for this HomePage
 	public Scene getScene() {
 		return sc;
 	}

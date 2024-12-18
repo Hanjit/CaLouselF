@@ -37,6 +37,7 @@ public class RegisterPage {
 	
 	Alert alert;
 	
+	// Initializes UI components and sets up their basic properties
 	private void initialize() {
 		bp = new BorderPane();
 		sc = new Scene(bp, 600, 400);
@@ -87,8 +88,8 @@ public class RegisterPage {
 		alert = new Alert(AlertType.NONE, "", ButtonType.OK);
 	}
 	
+	// Configures the layout and positions the UI components in the scene
 	private void layouting() {
-//		gpForm.add(titleLabel, 0, 0);
 		gpForm.add(usernameLabel, 0, 0);
 		gpForm.add(passwordLabel, 0, 1);
 		gpForm.add(phoneNumberLabel, 0, 2);
@@ -109,14 +110,13 @@ public class RegisterPage {
 		
 		bp.setTop(titleLabel);
 		bp.setCenter(gpForm);
-//		bp.setBottom(hbButtons);
 		BorderPane.setAlignment(titleLabel, Pos.CENTER);
 		BorderPane.setMargin(gpForm, new Insets(0, 0, 70, 0));
 		BorderPane.setMargin(titleLabel, new Insets(70, 0, 0, 0));
 	}
 	
+	// Validates the registration input fields
 	private boolean register() {
-//		String id = userIdField.getText().toString();
 		String username = usernameField.getText().toString();
 		String password = passwordField.getText().toString();
 		String phoneNumber = phoneNumberField.getText().toString();
@@ -130,10 +130,11 @@ public class RegisterPage {
 		}
 
 		return UserController.getInstance().register(username, password, phoneNumber, address, role);
-		
 	}
 	
+//	Adds event listeners to the UI components to handle user interactions
 	private void setAction() {
+		// Event for clicking the "Register" button
 		registerButton.setOnMouseClicked(e -> {
 			if (register()) {
 				alert.setContentText("Register Successful!");
@@ -144,6 +145,7 @@ public class RegisterPage {
 			} 
 		});
 		
+		// Event for clicking the "Back" button
 		backButton.setOnMouseClicked(e -> {
 			LoginPage loginPage = new LoginPage();
 			Scene loginScene = loginPage.getScene();
@@ -151,14 +153,15 @@ public class RegisterPage {
 		});
 	}
 	
+	// Constructor for Register Page (call all the functions)
 	public RegisterPage() {
 		initialize();
 		layouting();
 		setAction();
 	}
 	
+	//	Returns the scene for this RegisterPage
 	public Scene getScene() {
 		return sc;
 	}
-	
 }

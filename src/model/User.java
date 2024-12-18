@@ -15,7 +15,8 @@ public class User {
     private String role;
     
     public User() {}
-
+    
+    // Constructor to initialize User object with the provided details
     public User(int userId, String username, String password, String phoneNumber, String address, String role) {
         this.userId = userId;
         this.username = username;
@@ -25,6 +26,7 @@ public class User {
         this.role = role;
     }
     
+    // Method to login a user by verifying the username and password
     public User login(String username, String password) {
     	User user = new User();
     	String query = String.format("SELECT * "
@@ -54,6 +56,7 @@ public class User {
     	return null;
     }
     
+    // Method to register a new user
     public boolean register(String username, String password, String phoneNumber, String address, String role) {
     	String query = "INSERT INTO `msuser` (`Username`, `Password`, `Phone_number`, `Address`, `Role`) VALUES(?, ?, ?, ?, ?)";
     	PreparedStatement ps = Database.getInstance().prepareStatement(query);
@@ -72,6 +75,7 @@ public class User {
     	return false;
     }
     
+    // Method to check if a username is already taken
     public boolean getUserByUsername(String username) {
     	String query = "SELECT COUNT(*) FROM msuser WHERE Username = ?";
     	PreparedStatement ps = Database.getInstance().prepareStatement(query);
@@ -90,7 +94,7 @@ public class User {
     	return false;
     }
     
-    // Get declined offers for alert
+    // Method to get the declined offers for a user (for alert purposes)
     public ArrayList<Offer> getDeclinedOffers(String userId) {
     	ArrayList<Offer> offers = new ArrayList<>();
     	String query = String.format("SELECT `Offer_id`, `Offer_status`, `Offer_reason` "
@@ -111,7 +115,8 @@ public class User {
     	
     	return offers;
     }
-
+    
+    // Setter-Getter methods for the user class fields
     public int getUserId() {
         return userId;
     }

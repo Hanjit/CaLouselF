@@ -1,4 +1,4 @@
-package view;
+package view.buyer;
 
 import java.util.ArrayList;
 
@@ -16,6 +16,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import model.Item;
 import model.Transaction;
+import view.Main;
 
 public class TransactionPage {
 
@@ -36,6 +37,7 @@ public class TransactionPage {
 		
 	Button backButton;
 	
+	// Initializes UI components and sets up their basic properties
 	private void initialize() {
 		transactions = new ArrayList<>();
 		
@@ -56,6 +58,7 @@ public class TransactionPage {
 		backButton.setPrefWidth(100);
 	}
 	
+	// Configures the layout and positions the UI components in the scene
 	private void layouting() {
 		hbButtons.getChildren().add(backButton);
 		hbButtons.setPadding(new Insets(10));
@@ -79,6 +82,7 @@ public class TransactionPage {
 		bp.setPadding(new Insets(20));
 	}
 	
+	// Fills the TableView with data fetched from the TransactionController
 	private void fillTable() {
 		int userId = Main.getUser().getUserId();
 		transactions = TransactionController.getInstance().getTransaction(userId);
@@ -87,7 +91,9 @@ public class TransactionPage {
 		tvTransactions.getItems().addAll(transactions);
 	}
 	
+	//	Adds event listeners to the UI components to handle user interactions
 	private void setAction() {
+		// Event for clicking the "Back" button
 		backButton.setOnMouseClicked(e -> {
 			HomePage homePage = new HomePage();
 			Scene homeScene = homePage.getScene();
@@ -95,6 +101,7 @@ public class TransactionPage {
 		});
 	}
 	
+	// Constructor for Buyer History Transaction Page (call all the functions)
 	public TransactionPage() {
 		initialize();
 		layouting();
@@ -102,6 +109,7 @@ public class TransactionPage {
 		setAction();
 	}
 	
+	//	Returns the scene for this TransactionPage
 	public Scene getScene() {
 		return sc;
 	}

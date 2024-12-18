@@ -18,6 +18,7 @@ public class Transaction {
 	
 	public Transaction() {}
 	
+	// Constructor to initialize Transaction object with details
 	public Transaction(int userId, int transactionId, String itemName, String itemCategory, String itemSize, String itemPrice) {
 		this.userId = userId;
 		this.transactionId = transactionId;
@@ -27,6 +28,7 @@ public class Transaction {
 		this.itemPrice = itemPrice;
 	}
 
+	// Method to create a new transaction record in the database
 	public boolean createTransaction(int userId, int itemId) {
 		String query = "INSERT INTO `MsTransaction` (`User_id`, `Item_id`) VALUES(?, ?)";
 		PreparedStatement ps = Database.getInstance().prepareStatement(query);
@@ -42,6 +44,7 @@ public class Transaction {
 		return false;
 	}
 	
+	// Method to retrieve a list of transactions for a specific user
 	public ArrayList<Transaction> getTransaction(int userId) {
 		ArrayList<Transaction> transactions = new ArrayList<>();
 //		String query = "SELECT * FROM `MsTransaction` WHERE User_id LIKE ?";
@@ -66,7 +69,8 @@ public class Transaction {
 		
 		return transactions;
 	}
-
+	
+	// Setter-Getter methods for the transaction class fields
 	public int getUserId() {
 		return userId;
 	}

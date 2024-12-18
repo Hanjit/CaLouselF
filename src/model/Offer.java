@@ -22,11 +22,13 @@ public class Offer {
 	
 	public Offer() {}
 	
+	// Constructor for initializing offer with offerId and offerReason
 	public Offer(int offerId, String offerReason) {
 		this.offerId = offerId;
 		this.offerReason = offerReason;
 	}
 	
+	// Constructor for initializing the offer with all relevant details
 	public Offer(int offerId, int userId, int itemId, String itemName, int itemPrice, int offerPrice, String offerStatus, String offerReason, 
 			String itemCategory, String itemSize) {
 		super();
@@ -42,6 +44,7 @@ public class Offer {
 		this.itemSize = itemSize;
 	}
 	
+	// Method to create a new offer for an item
 	public boolean createOffer(int userId, int itemId, int sellerId, int offerPrice) {
 		
 		String query = "INSERT INTO `MsOffer` (`User_id`, `Item_id`, `Seller_id`, `Offer_status`, `Offer_reason`, `Offer_price`) "
@@ -63,7 +66,7 @@ public class Offer {
 		return false;
 	}
 	
-	// for seller
+	// Method to retrieve all offers for a specific seller
 	public ArrayList<Offer> getOffer(int sellerId) {
 		ArrayList<Offer> offers = new ArrayList<>();
 		String query = String.format("SELECT `Offer_id`, `User_id`, mo.`Item_id`, `Item_price`, `Offer_price`, `Offer_status`, `Offer_reason`, `Item_name`, `Item_category`, `Item_size` "
@@ -94,6 +97,7 @@ public class Offer {
 		return offers;
 	}
 	
+	// Method to get the highest offer price for a specific item
 	public int getHighestOffer(int itemId) {
 		int highestOffer = 0;
 		String query = String.format("SELECT `Offer_price` FROM `MsOffer` "
@@ -114,25 +118,7 @@ public class Offer {
 		return highestOffer;
 	}
 	
-	// for user declined offer alert
-	public ArrayList<Offer> getDeclinedOffer(int userId) {
-		ArrayList<Offer> offers = new ArrayList<>();
-		String query = String.format("SELECT * FROM `MsOffer` WHERE `User_id` = %d AND `Offer_status` LIKE 'Declined'", userId);
-		ResultSet rs = Database.getInstance().execQuery(query);
-		
-		try {
-			while (rs.next()) {
-				int offerId = rs.getInt("Offer_id");
-				String offerReason = rs.getString("Offer_reason");
-				offers.add(new Offer(offerId, offerReason));
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return offers;
-	}
-	
+	// Method to delete an offer by its offerId
 	public boolean deleteOffer(int offerId) {
 			
 			String query = "DELETE FROM `MsOffer` WHERE `Offer_id` = ?";
@@ -148,6 +134,7 @@ public class Offer {
 			return false;
 		}
 	
+	// Method to accept an offer by updating its status to 'Accepted'
 	public boolean acceptOffer(int offerId) {
 		
 		String query = "UPDATE `MsOffer`"
@@ -165,6 +152,7 @@ public class Offer {
 		return false;
 	}
 	
+	// Method to decline an offer and provide a reason for the decline
 	public boolean declineOffer(int offerId, String offerReason) {
 		
 		String query = "UPDATE `MsOffer` "
@@ -183,6 +171,7 @@ public class Offer {
 		return false;
 	}
 	
+	// Setter-Getter methods for the offer class fields
 	public int getOfferId() {
 		return offerId;
 	}
